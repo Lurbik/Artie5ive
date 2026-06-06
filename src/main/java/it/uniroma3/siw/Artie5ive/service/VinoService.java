@@ -5,6 +5,7 @@ import it.uniroma3.siw.Artie5ive.repository.VinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VinoService {
@@ -16,8 +17,8 @@ public class VinoService {
         return vinoRepository.findAll();
     }
 
-    public Vino findById(Long id) {
-        return vinoRepository.findById(id).orElse(null);
+    public Optional<Vino> findById(Long id) {
+        return vinoRepository.findById(id);
     }
 
     public Vino save(Vino vino) {

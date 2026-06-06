@@ -4,6 +4,7 @@ import it.uniroma3.siw.Artie5ive.model.Produttore;
 import it.uniroma3.siw.Artie5ive.repository.ProduttoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class ProduttoreService {
@@ -15,8 +16,8 @@ public class ProduttoreService {
         return produttoreRepository.findAll();
     }
 
-    public Produttore findById(Long id) {
-        return produttoreRepository.findById(id).orElse(null);
+    public Optional<Produttore> findById(Long id) {
+        return produttoreRepository.findById(id);
     }
 
     public Produttore save(Produttore produttore) {

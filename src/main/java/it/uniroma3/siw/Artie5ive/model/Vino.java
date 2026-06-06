@@ -3,6 +3,7 @@ package it.uniroma3.siw.Artie5ive.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @Entity
@@ -44,4 +45,7 @@ public class Vino {
     @ManyToMany
     @JoinTable(name = "vino_categoria", joinColumns = @JoinColumn(name = "vino_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<Categoria> categorie;
+
+    @OneToMany(mappedBy = "vino", cascade = CascadeType.ALL)
+    private List<Recensione> recensioni = new ArrayList<>();
 }
