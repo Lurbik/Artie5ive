@@ -34,16 +34,14 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-image: 
-        radial-gradient(ellipse at top left, rgba(114,47,55,0.12) 0%, transparent 40%),
-        radial-gradient(ellipse at bottom right, rgba(201,168,76,0.08) 0%, transparent 40%),
-        repeating-linear-gradient(
-            45deg,
+    background-image:
+        radial-gradient(ellipse at top left, rgba(114, 47, 55, 0.12) 0%, transparent 40%),
+        radial-gradient(ellipse at bottom right, rgba(201, 168, 76, 0.08) 0%, transparent 40%),
+        repeating-linear-gradient(45deg,
             transparent,
             transparent 100px,
-            rgba(255,255,255,0.01) 100px,
-            rgba(255,255,255,0.01) 101px
-        );
+            rgba(255, 255, 255, 0.01) 100px,
+            rgba(255, 255, 255, 0.01) 101px);
 }
 
 a {
@@ -621,4 +619,26 @@ footer {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent-gold);
+}
+
+/* ===== INPUT NUMBER — rimuovi frecce ===== */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* ===== SELECT — freccia custom ===== */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
 }
