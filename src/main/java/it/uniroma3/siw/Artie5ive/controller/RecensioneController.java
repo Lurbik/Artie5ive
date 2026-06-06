@@ -4,7 +4,7 @@ import it.uniroma3.siw.Artie5ive.model.Recensione;
 import it.uniroma3.siw.Artie5ive.model.Vino;
 import it.uniroma3.siw.Artie5ive.service.RecensioneService;
 import it.uniroma3.siw.Artie5ive.service.UtenteService;
-import it.uniroma3.siw.Artie5ive.service.VinoCatalogService;
+import it.uniroma3.siw.Artie5ive.service.VinoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class RecensioneController {
 
     private final RecensioneService recensioneService;
     private final UtenteService utenteService;
-    private final VinoCatalogService vinoService;
+    private final VinoService vinoService;
 
     // Form nuova recensione
     @GetMapping("/nuova/{vinoId}")
