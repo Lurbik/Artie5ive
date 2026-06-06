@@ -4,6 +4,7 @@ import it.uniroma3.siw.Artie5ive.model.Regione;
 import it.uniroma3.siw.Artie5ive.repository.RegioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class RegioneService {
@@ -15,8 +16,8 @@ public class RegioneService {
         return regioneRepository.findAll();
     }
 
-    public Regione findById(Long id) {
-        return regioneRepository.findById(id).orElse(null);
+    public Optional<Regione> findById(Long id) {
+        return regioneRepository.findById(id);
     }
 
     public Regione save(Regione regione) {
