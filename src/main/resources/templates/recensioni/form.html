@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content}, 'Nuova Recensione')}">
+<body>
+    <th:block th:fragment="content">
+        <h2>Scrivi una recensione</h2>
+
+        <div th:if="${errore}" class="error" th:text="${errore}"></div>
+
+        <form th:action="@{/recensioni/nuova/{id}(id=${vinoId})}"
+              th:object="${recensione}" method="post">
+            <div class="form-group">
+                <label>Voto (1-5)</label>
+                <input type="number" th:field="*{voto}" min="1" max="5" />
+                <span th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label>Testo</label>
+                <textarea th:field="*{testo}" rows="4"></textarea>
+                <span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}" class="error"></span>
+            </div>
+            <button type="submit" class="btn-primary">Invia recensione</button>
+            <a th:href="@{/vini/{id}(id=${vinoId})}">Annulla</a>
+        </form>
+    </th:block>
+</body>
+</html>

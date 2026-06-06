@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content}, 'Profilo')}">
+<body>
+    <th:block th:fragment="content">
+        <h2>Il tuo profilo</h2>
+        <p><strong>Nome:</strong> <span th:text="${utente.nome}"></span></p>
+        <p><strong>Cognome:</strong> <span th:text="${utente.cognome}"></span></p>
+        <p><strong>Username:</strong> <span th:text="${utente.username}"></span></p>
+
+        <h3>Le tue recensioni</h3>
+        <div th:if="${#lists.isEmpty(recensioni)}">
+            <p>Non hai ancora scritto recensioni.</p>
+        </div>
+        <div th:each="rec : ${recensioni}">
+            <p>
+                <strong th:text="${rec.vino.nome}"></strong> —
+                voto: <span th:text="${rec.voto}"></span>/5
+            </p>
+            <p th:text="${rec.testo}"></p>
+            <form th:action="@{/recensioni/elimina/{id}(id=${rec.id})}" method="post">
+                <button type="submit">Elimina</button>
+            </form>
+        </div>
+    </th:block>
+</body>
+</html>
