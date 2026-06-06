@@ -44,4 +44,8 @@ public class RecensioneService {
     public Optional<Recensione> findById(Long id) {
         return recensioneRepository.findById(id);
     }
+
+    public List<Recensione> findAll() {
+        return recensioneRepository.findAll();
+    }
 }
