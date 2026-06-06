@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6"
+      th:replace="~{layout :: layout(~{::content}, 'Dettaglio Vino')}">
+<body>
+    <th:block th:fragment="content">
+        <div th:if="${vino != null}">
+            <h2 th:text="${vino.nome}"></h2>
+            <p><strong>Annata:</strong> <span th:text="${vino.annata}"></span></p>
+            <p><strong>Colore:</strong> <span th:text="${vino.colore}"></span></p>
+            <p><strong>Stile:</strong> <span th:text="${vino.stile}"></span></p>
+            <p><strong>Gradazione:</strong> <span th:text="${vino.gradazione}"></span>%</p>
+            <p><strong>Produttore:</strong> <span th:text="${vino.produttore?.nome}"></span></p>
+            <p><strong>Regione:</strong> <span th:text="${vino.regione?.nome}"></span></p>
+            <p th:text="${vino.descrizione}"></p>
+
+            <!-- Recensioni -->
+            <h3>Recensioni</h3>
+            <div th:if="${#lists.isEmpty(recensioni)}">
+                <p>Nessuna recensione ancora.</p>
+            </div>
+            <div th:each="rec : ${recensioni}">
+                <p><strong th:text="${rec.utente.username}"></strong> — voto: <span th:text="${rec.voto}"></span>/5</p>
+                <p th:text="${rec.testo}"></p>
+                <p><small th:text="${rec.data}"></small></p>
+
+                <!-- Elimina se è la propria recensione -->
+                <form th:action="@{/recensioni/elimina/{id}(id=${rec.id})}" method="post"
+                      sec:authorize="isAuthenticated()"
+                      th:if="${rec.utente.username == #authentication.name}">
+                    <button type="submit">Elimina</button>
+                </form>
+            </div>
+
+            <!-- Aggiungi recensione -->
+            <div sec:authorize="isAuthenticated()">
+                <a th:href="@{/recensioni/nuova/{id}(id=${vino.id})}">Scrivi una recensione</a>
+            </div>
+            <div sec:authorize="isAnonymous()">
+                <a th:href="@{/login}">Accedi per recensire</a>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

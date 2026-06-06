@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content}, 'Gestione Produttori')}">
+<body>
+    <th:block th:fragment="content">
+        <h2>Gestione Produttori</h2>
+        <a th:href="@{/admin/produttori/nuovo}">+ Nuovo Produttore</a>
+
+        <div th:each="p : ${produttori}">
+            <p th:text="${p.nome}"></p>
+            <a th:href="@{/admin/produttori/modifica/{id}(id=${p.id})}">Modifica</a>
+            <form th:action="@{/admin/produttori/elimina/{id}(id=${p.id})}" method="post" style="display:inline">
+                <button type="submit"
+                        onclick="return confirm('Eliminare questo produttore?')">Elimina</button>
+            </form>
+        </div>
+    </th:block>
+</body>
+</html>
