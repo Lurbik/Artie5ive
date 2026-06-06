@@ -46,6 +46,6 @@ public class Vino {
     @JoinTable(name = "vino_categoria", joinColumns = @JoinColumn(name = "vino_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<Categoria> categorie;
 
-    @OneToMany(mappedBy = "vino", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vino", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recensione> recensioni = new ArrayList<>();
 }
