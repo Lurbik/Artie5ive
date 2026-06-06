@@ -12,4 +12,12 @@ public interface VinoRepository extends CrudRepository<Vino, Long> {
     List<Vino> findByRegioneId(Long regioneId);
 
     boolean existsByNomeAndAnnataAndProduttoreId(String nome, Integer annata, Long produttoreId);
+
+    List<Vino> findByAnnataAndRegioneId(Integer annata, Long regioneId);
+
+    List<Vino> findByAnnataAndProduttoreId(Integer annata, Long produttoreId);
+
+    List<Vino> findByRegioneIdAndProduttoreId(Long regioneId, Long produttoreId);
+
+    List<Vino> findByAnnataAndRegioneIdAndProduttoreId(Integer annata, Long regioneId, Long produttoreId);
 }

@@ -44,4 +44,24 @@ public class VinoService {
     public boolean existsByNomeAndAnnataAndProduttore(String nome, Integer annata, Long produttoreId) {
         return vinoRepository.existsByNomeAndAnnataAndProduttoreId(nome, annata, produttoreId);
     }
+
+    public List<Vino> filtra(Integer annata, Long regioneId, Long produttoreId) {
+        if (annata != null && regioneId != null && produttoreId != null) {
+            return vinoRepository.findByAnnataAndRegioneIdAndProduttoreId(annata, regioneId, produttoreId);
+        } else if (annata != null && regioneId != null) {
+            return vinoRepository.findByAnnataAndRegioneId(annata, regioneId);
+        } else if (annata != null && produttoreId != null) {
+            return vinoRepository.findByAnnataAndProduttoreId(annata, produttoreId);
+        } else if (regioneId != null && produttoreId != null) {
+            return vinoRepository.findByRegioneIdAndProduttoreId(regioneId, produttoreId);
+        } else if (annata != null) {
+            return vinoRepository.findByAnnata(annata);
+        } else if (regioneId != null) {
+            return vinoRepository.findByRegioneId(regioneId);
+        } else if (produttoreId != null) {
+            return vinoRepository.findByProduttoreId(produttoreId);
+        } else {
+            return (List<Vino>) vinoRepository.findAll();
+        }
+    }
 }
