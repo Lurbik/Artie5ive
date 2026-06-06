@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+
+<body>
+    <nav th:fragment="navbar">
+        <div class="nav-brand">
+            <a th:href="@{/}">🍷 Artie5ive</a>
+        </div>
+        <div class="nav-links">
+            <a th:href="@{/vini}">Vini</a>
+            <a th:href="@{/produttori}">Produttori</a>
+
+            <span sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/vini}">Gestisci Vini</a>
+                <a th:href="@{/admin/produttori}">Gestisci Produttori</a>
+                <a th:href="@{/admin/regioni}">Gestisci Regioni</a>
+                <a th:href="@{/admin/categorie}">Gestisci Categorie</a>
+            </span>
+
+            <span sec:authorize="isAnonymous()">
+                <a th:href="@{/login}">Login</a>
+                <a th:href="@{/register}">Registrati</a>
+            </span>
+
+            <span sec:authorize="isAuthenticated()">
+                <a th:href="@{/profilo}">Profilo</a>
+                <form th:action="@{/logout}" method="post" style="display:inline">
+                    <button type="submit">Logout</button>
+                </form>
+            </span>
+        </div>
+    </nav>
+</body>
+
+</html>
