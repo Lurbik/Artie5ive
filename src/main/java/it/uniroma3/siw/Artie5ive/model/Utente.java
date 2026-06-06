@@ -1,4 +1,4 @@
-package it.uniroma3.siw.vini.model;
+package it.uniroma3.siw.Artie5ive.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
