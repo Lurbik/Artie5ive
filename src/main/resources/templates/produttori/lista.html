@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content}, 'Produttori')}">
+<body>
+    <th:block th:fragment="content">
+        <div class="page-header">
+            <h1>Produttori</h1>
+        </div>
+        <div class="card-grid">
+            <div class="card" th:each="p : ${produttori}">
+                <div class="card-img-placeholder">🏭</div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a th:href="@{/produttori/{id}(id=${p.id})}"
+                           th:text="${p.nome}"></a>
+                    </h3>
+                    <p class="card-subtitle" th:text="${p.regione?.nome}"></p>
+                    <p class="card-text" th:text="${p.annoFondazione != null} ? 'Est. ' + ${p.annoFondazione} : ''"></p>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

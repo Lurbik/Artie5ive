@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content}, 'Dettaglio Produttore')}">
+<body>
+    <th:block th:fragment="content">
+        <div th:if="${produttore != null}">
+            <div class="page-header">
+                <h1 th:text="${produttore.nome}"></h1>
+            </div>
+            <p><strong>Regione:</strong> <span th:text="${produttore.regione?.nome}"></span></p>
+            <p><strong>Anno fondazione:</strong> <span th:text="${produttore.annoFondazione}"></span></p>
+            <p th:text="${produttore.descrizione}"></p>
+            <a th:href="@{/produttori}" class="btn-secondary">← Tutti i produttori</a>
+        </div>
+    </th:block>
+</body>
+</html>
