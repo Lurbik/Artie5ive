@@ -19,6 +19,8 @@ public class VinoController {
     @GetMapping("/vini")
     public String listaVini(Model model) {
         model.addAttribute("vini", vinoService.findAll());
+        model.addAttribute("regioni", regioneService.findAll());
+        model.addAttribute("produttori", produttoreService.findAll());
         return "vini/lista";
     }
 

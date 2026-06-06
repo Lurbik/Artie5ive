@@ -1,45 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6"
-      th:replace="~{layout :: layout(~{::content}, 'Dettaglio Vino')}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6"
+    th:replace="~{layout :: layout(~{::content}, 'Dettaglio Vino')}">
+
 <body>
     <th:block th:fragment="content">
         <div th:if="${vino != null}">
-            <h2 th:text="${vino.nome}"></h2>
-            <p><strong>Annata:</strong> <span th:text="${vino.annata}"></span></p>
-            <p><strong>Colore:</strong> <span th:text="${vino.colore}"></span></p>
-            <p><strong>Stile:</strong> <span th:text="${vino.stile}"></span></p>
-            <p><strong>Gradazione:</strong> <span th:text="${vino.gradazione}"></span>%</p>
-            <p><strong>Produttore:</strong> <span th:text="${vino.produttore?.nome}"></span></p>
-            <p><strong>Regione:</strong> <span th:text="${vino.regione?.nome}"></span></p>
-            <p th:text="${vino.descrizione}"></p>
+
+            <!-- Dettaglio principale -->
+            <div class="dettaglio-grid">
+                <div>
+                    <div class="card-img-placeholder" th:if="${vino.immagine == null}"
+                        style="height:350px; border-radius: var(--radius); border: 1px solid var(--border)">🍷</div>
+                    <img class="dettaglio-img" th:if="${vino.immagine != null}"
+                        th:src="@{/uploads/{img}(img=${vino.immagine})}" th:alt="${vino.nome}" />
+                </div>
+                <div class="dettaglio-info">
+                    <h1 th:text="${vino.nome}"></h1>
+                    <div class="dettaglio-meta">
+                        <span th:text="${vino.produttore?.nome}"></span>
+                        <span th:if="${vino.regione != null}"> · <span th:text="${vino.regione.nome}"></span></span>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem">
+                        <span class="badge badge-wine" th:text="${vino.colore}"></span>
+                        <span class="badge badge-muted" th:text="${vino.stile}"></span>
+                        <span class="badge badge-gold" th:each="cat : ${vino.categorie}" th:text="${cat.nome}"></span>
+                    </div>
+
+                    <div class="dettaglio-attributi">
+                        <div class="attributo">
+                            <div class="attributo-label">Annata</div>
+                            <div class="attributo-value" th:text="${vino.annata}"></div>
+                        </div>
+                        <div class="attributo">
+                            <div class="attributo-label">Gradazione</div>
+                            <div class="attributo-value" th:text="${vino.gradazione} + '% vol'"></div>
+                        </div>
+                        <div class="attributo" th:if="${vino.produttore != null}">
+                            <div class="attributo-label">Produttore</div>
+                            <div class="attributo-value" th:text="${vino.produttore.nome}"></div>
+                        </div>
+                        <div class="attributo" th:if="${vino.regione != null}">
+                            <div class="attributo-label">Regione</div>
+                            <div class="attributo-value" th:text="${vino.regione.nome}"></div>
+                        </div>
+                    </div>
+
+                    <p class="card-text" th:if="${vino.descrizione != null}" th:text="${vino.descrizione}"></p>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <a th:href="@{/recensioni/nuova/{id}(id=${vino.id})}" class="btn-primary">
+                            Scrivi una recensione
+                        </a>
+                    </div>
+                    <div sec:authorize="isAnonymous()" style="margin-top:1rem">
+                        <a th:href="@{/login}" class="btn-secondary">Accedi per recensire</a>
+                    </div>
+                </div>
+            </div>
 
             <!-- Recensioni -->
-            <h3>Recensioni</h3>
-            <div th:if="${#lists.isEmpty(recensioni)}">
-                <p>Nessuna recensione ancora.</p>
-            </div>
-            <div th:each="rec : ${recensioni}">
-                <p><strong th:text="${rec.utente.username}"></strong> — voto: <span th:text="${rec.voto}"></span>/5</p>
-                <p th:text="${rec.testo}"></p>
-                <p><small th:text="${rec.data}"></small></p>
-
-                <!-- Elimina se è la propria recensione -->
-                <form th:action="@{/recensioni/elimina/{id}(id=${rec.id})}" method="post"
-                      sec:authorize="isAuthenticated()"
-                      th:if="${rec.utente.username == #authentication.name}">
-                    <button type="submit">Elimina</button>
-                </form>
+            <div class="page-header" style="margin-top: 2rem">
+                <h1 style="font-size: 1.5rem">Recensioni</h1>
             </div>
 
-            <!-- Aggiungi recensione -->
-            <div sec:authorize="isAuthenticated()">
-                <a th:href="@{/recensioni/nuova/{id}(id=${vino.id})}">Scrivi una recensione</a>
+            <div th:if="${#lists.isEmpty(recensioni)}"
+                style="color: var(--text-muted); padding: 2rem 0; text-align:center">
+                Nessuna recensione ancora. Sii il primo!
             </div>
-            <div sec:authorize="isAnonymous()">
-                <a th:href="@{/login}">Accedi per recensire</a>
-            </div>
-        </div>
-    </th:block>
-</body>
-</html>
+
+            <div th:each="rec : ${recensioni}" class="recensione-card">
+                <div class="recensione-header">
+                    <span class="recensione-autore" th:text="${rec.utente.username}"></span>
+                    <div class="stelle">
+                        <th:block th:each="i : ${#numbers.sequence(1, rec.voto)}">★</th:block>
+                        <th:block th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">☆</th:block>

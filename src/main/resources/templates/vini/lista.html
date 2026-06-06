@@ -1,37 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{layout :: layout(~{::content}, 'Vini')}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Vini')}">
+
 <body>
     <th:block th:fragment="content">
-        <h2>Catalogo Vini</h2>
 
-        <!-- Form filtri -->
+        <div class="page-header">
+            <h1>Catalogo Vini</h1>
+        </div>
+
+        <!-- Filtri -->
         <form th:action="@{/vini/filtra}" method="get">
-            <input type="number" name="annata" placeholder="Annata" />
-            <select name="regioneId">
-                <option value="">Tutte le regioni</option>
-                <option th:each="r : ${regioni}" th:value="${r.id}" th:text="${r.nome}"></option>
-            </select>
-            <select name="produttoreId">
-                <option value="">Tutti i produttori</option>
-                <option th:each="p : ${produttori}" th:value="${p.id}" th:text="${p.nome}"></option>
-            </select>
-            <button type="submit">Filtra</button>
-            <a th:href="@{/vini}">Reset</a>
+            <div class="filtri-bar">
+                <div class="form-group">
+                    <label>Annata</label>
+                    <input type="number" name="annata" placeholder="es. 2018" min="1900" max="2026" />
+                </div>
+                <div class="form-group">
+                    <label>Regione</label>
+                    <select name="regioneId">
+                        <option value="">Tutte le regioni</option>
+                        <option th:each="r : ${regioni}" th:value="${r.id}" th:text="${r.nome}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Produttore</label>
+                    <select name="produttoreId">
+                        <option value="">Tutti i produttori</option>
+                        <option th:each="p : ${produttori}" th:value="${p.id}" th:text="${p.nome}"></option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="btn-primary">Filtra</button>
+                    <a th:href="@{/vini}" class="btn-secondary" style="margin-left:0.5rem">Reset</a>
+                </div>
+            </div>
         </form>
 
         <!-- Lista vini -->
-        <div th:if="${#lists.isEmpty(vini)}">
+        <div th:if="${#lists.isEmpty(vini)}" style="text-align:center; padding: 4rem; color: var(--text-muted)">
             <p>Nessun vino trovato.</p>
         </div>
-        <div th:each="vino : ${vini}">
-            <h3>
-                <a th:href="@{/vini/{id}(id=${vino.id})}" th:text="${vino.nome}"></a>
-            </h3>
-            <p th:text="${vino.annata}"></p>
-            <p th:text="${vino.colore}"></p>
-            <p th:text="${vino.produttore?.nome}"></p>
+
+        <div class="card-grid" th:unless="${#lists.isEmpty(vini)}">
+            <div class="card" th:each="vino : ${vini}">
+                <div class="card-img-placeholder" th:if="${vino.immagine == null}">🍷</div>
+                <img class="card-img" th:if="${vino.immagine != null}" th:src="@{/uploads/{img}(img=${vino.immagine})}"
+                    th:alt="${vino.nome}" />
+                <div class="card-body">
+                    <div class="card-title" th:text="${vino.nome}"></div>
+                    <div class="card-subtitle" th:text="${vino.produttore?.nome} + ' · ' + ${vino.annata}"></div>
+                    <div style="margin-bottom: 0.75rem">
+                        <span class="badge badge-wine" th:text="${vino.colore}"></span>
+                        <span class="badge badge-muted" th:text="${vino.stile}"></span>
+                    </div>
+                    <a th:href="@{/vini/{id}(id=${vino.id})}" class="btn-primary"
+                        style="font-size:0.8rem; padding: 0.5rem 1rem">
+                        Scopri
+                    </a>
+                </div>
+            </div>
         </div>
+
     </th:block>
 </body>
+
 </html>

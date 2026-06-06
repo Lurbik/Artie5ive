@@ -1,27 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(~{::content}, 'Profilo')}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Profilo')}">
+
 <body>
     <th:block th:fragment="content">
-        <h2>Il tuo profilo</h2>
-        <p><strong>Nome:</strong> <span th:text="${utente.nome}"></span></p>
-        <p><strong>Cognome:</strong> <span th:text="${utente.cognome}"></span></p>
-        <p><strong>Username:</strong> <span th:text="${utente.username}"></span></p>
 
-        <h3>Le tue recensioni</h3>
-        <div th:if="${#lists.isEmpty(recensioni)}">
-            <p>Non hai ancora scritto recensioni.</p>
+        <div class="page-header">
+            <h1>Il tuo profilo</h1>
         </div>
-        <div th:each="rec : ${recensioni}">
-            <p>
-                <strong th:text="${rec.vino.nome}"></strong> —
-                voto: <span th:text="${rec.voto}"></span>/5
-            </p>
-            <p th:text="${rec.testo}"></p>
-            <form th:action="@{/recensioni/elimina/{id}(id=${rec.id})}" method="post">
-                <button type="submit">Elimina</button>
-            </form>
-        </div>
-    </th:block>
-</body>
-</html>
+
+        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem">
+
+            <!-- Info utente -->
+            <div class="card">
+                <div class="card-body">
+                    <div style="text-align:center; padding: 1rem 0 1.5rem">
+                        <div style="width:80px; height:80px; border-radius:50%; background: var(--bg-secondary);
+                                border: 2px solid var(--border-gold); margin: 0 auto 1rem;
+                                display:flex; align-items:center; justify-content:center;
+                                font-size:2rem; color: var(--accent-gold)">
+                            ◈
+                        </div>
+                        <div class="card-title" th:text="${utente.nome} + ' ' + ${utente.cognome}"></div>
+                        <div class="card-subtitle" th:text="'@' + ${utente.username}"></div>
+                    </div>
+                    <div class="attributo" style="margin-bottom:0.75rem">
+                        <div class="attributo-label">Ruolo</div>
+                        <div class="attributo-value">
+                            <span class="badge badge-gold" th:text="${utente.ruolo}"></span>
+                        </div>
+                    </div>
+                    <div class="attributo">
+                        <div class="attributo-label">Recensioni scritte</div>
+                        <div class="attributo-value" th:text="${#lists.size(recensioni)}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recensioni -->
+            <div>
+                <h2 style="font-family: var(--font-main); font-weight:normal; color: var(--accent-gold);
+                       margin-bottom:1.5rem; font-size:1.4rem">Le tue recensioni</h2>
+
+                <div th:if="${#lists.isEmpty(recensioni)}"
+                    style="color: var(--text-muted); text-align:center; padding: 3rem">
+                    Non hai ancora scritto recensioni.
+                </div>
+
+                <div th:each="rec : ${recensioni}" class="recensione-card">
