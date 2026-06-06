@@ -1,4 +1,9 @@
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\Artie5iveApplication.java
+C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\controller\AdminProduttoreController.java
+C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\controller\HomeController.java
+C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\controller\RecensioneController.java
+C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\controller\UtenteController.java
+C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\controller\VinoController.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\DataInitializer.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\model\Categoria.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\model\ColoreVino.java
@@ -19,6 +24,7 @@ C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\security\SecurityConfig.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\service\CategoriaService.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\service\ProduttoreService.java
+C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\service\RecensioneService.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\service\RegioneService.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\service\UtenteService.java
 C:\Users\totog\Documents\Ludo\Artie5ive\src\main\java\it\uniroma3\siw\Artie5ive\service\VinoService.java
