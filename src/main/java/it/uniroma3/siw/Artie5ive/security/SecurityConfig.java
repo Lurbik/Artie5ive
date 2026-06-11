@@ -25,18 +25,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // risorse pubbliche
-                        .requestMatchers("/", "/vini", "/vini/{id}", "/produttori", "/produttori/{id}").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
-                        .requestMatchers("/login", "/register").permitAll()
-                        // solo admin
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        // tutto il resto richiede login
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll())
+                    .requestMatchers("/", "/vini/**", "/produttori/**").permitAll()
+                    .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
+                    .requestMatchers("/login", "/registrazione").permitAll()
+                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
