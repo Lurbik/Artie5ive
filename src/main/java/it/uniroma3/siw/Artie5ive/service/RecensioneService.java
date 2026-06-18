@@ -46,11 +46,11 @@ public class RecensioneService {
     }
 
     public List<Recensione> findAll() {
-        return recensioneRepository.findAll();
+        return recensioneRepository.findAllWithDetails();
     }
 
-        @Transactional
+    @Transactional
     public Recensione aggiorna(Recensione recensione) {
-        return recensioneRepository.save(recensione);  // minuscolo! è il campo, non la classe
+        return recensioneRepository.save(recensione); // minuscolo! è il campo, non la classe
     }
 }
