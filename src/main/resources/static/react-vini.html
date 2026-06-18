@@ -183,7 +183,7 @@
 
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
         }
 
@@ -424,6 +424,10 @@
             .attr-grid {
                 grid-template-columns: 1fr;
             }
+
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -532,6 +536,7 @@
             const [filtroNome, setFiltroNome] = useState('');
             const [filtroColore, setFiltroColore] = useState('');
             const [vinoSelezionato, setVinoSelezionato] = useState(null);
+            const [pagina, setPagina] = useState(1);
 
             useEffect(() => {
                 fetch('/api/vini')
@@ -540,13 +545,18 @@
                     .catch(() => setLoading(false));
             }, []);
 
+            const colori = [...new Set(vini.map(v => v.colore).filter(Boolean))];
+
+            const PER_PAGINA = 8;
+
             const viniFiltrati = vini.filter(v => {
                 const nomeOk = v.nome.toLowerCase().includes(filtroNome.toLowerCase());
                 const coloreOk = !filtroColore || v.colore === filtroColore;
                 return nomeOk && coloreOk;
             });
 
-            const colori = [...new Set(vini.map(v => v.colore).filter(Boolean))];
+            const totPagine = Math.ceil(viniFiltrati.length / PER_PAGINA);
+            const viniPagina = viniFiltrati.slice((pagina - 1) * PER_PAGINA, pagina * PER_PAGINA);
 
             return (
                 <div>
@@ -564,19 +574,20 @@
                                 type="text"
                                 placeholder="Nome del vino..."
                                 value={filtroNome}
-                                onChange={e => setFiltroNome(e.target.value)}
+                                onChange={e => { setFiltroNome(e.target.value); setPagina(1); }}
                             />
                         </div>
                         <div>
                             <label>Colore</label>
-                            <select value={filtroColore} onChange={e => setFiltroColore(e.target.value)}>
+                            <select value={filtroColore}
+                                onChange={e => { setFiltroColore(e.target.value); setPagina(1); }}>
                                 <option value="">Tutti</option>
                                 {colori.map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
                         </div>
                         {(filtroNome || filtroColore) && (
                             <button className="btn btn-secondary"
-                                onClick={() => { setFiltroNome(''); setFiltroColore(''); }}>
+                                onClick={() => { setFiltroNome(''); setFiltroColore(''); setPagina(1); }}>
                                 Reset
                             </button>
                         )}
@@ -589,7 +600,7 @@
                     )}
 
                     <div className="card-grid">
-                        {viniFiltrati.map(vino => (
+                        {viniPagina.map(vino => (
                             <div key={vino.id} className="card" onClick={() => setVinoSelezionato(vino)}>
                                 {vino.immagine
                                     ? <img className="card-img" src={`/uploads/${vino.immagine}`} alt={vino.nome} />
@@ -608,6 +619,32 @@
                             </div>
                         ))}
                     </div>
+
+                    {totPagine > 1 && (
+                        <div style={{
+                            display: 'flex', justifyContent: 'center', gap: '0.5rem',
+                            marginTop: '2rem', flexWrap: 'wrap'
+                        }}>
+                            <button onClick={() => setPagina(p => Math.max(1, p - 1))}
+                                disabled={pagina === 1}
+                                className="btn btn-secondary"
+                                style={{ opacity: pagina === 1 ? 0.4 : 1 }}>←</button>
+                            {Array.from({ length: totPagine }, (_, i) => i + 1).map(n => (
+                                <button key={n} onClick={() => setPagina(n)}
+                                    className="btn"
+                                    style={{
+                                        borderColor: n === pagina ? 'var(--gold)' : 'var(--border)',
+                                        color: n === pagina ? 'var(--gold)' : 'var(--text-sec)',
+                                        background: n === pagina ? 'rgba(201,168,76,0.1)' : 'transparent',
+                                        minWidth: '40px'
+                                    }}>{n}</button>
+                            ))}
+                            <button onClick={() => setPagina(p => Math.min(totPagine, p + 1))}
+                                disabled={pagina === totPagine}
+                                className="btn btn-secondary"
+                                style={{ opacity: pagina === totPagine ? 0.4 : 1 }}>→</button>
+                        </div>
+                    )}
 
                     {vinoSelezionato && (
                         <ModalVino vino={vinoSelezionato} onClose={() => setVinoSelezionato(null)} />
