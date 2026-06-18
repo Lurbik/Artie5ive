@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import it.uniroma3.siw.Artie5ive.service.RecensioneService;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class VinoController {
     private final VinoService vinoService;
     private final ProduttoreService produttoreService;
     private final RegioneService regioneService;
+    final RecensioneService recensioneService;
 
     @GetMapping("/vini")
     public String listaVini(Model model) {
@@ -24,14 +26,15 @@ public class VinoController {
         return "vini/lista";
     }
 
-   @GetMapping("/vini/{id}")
-public String dettaglioVino(@PathVariable Long id, Model model) {
-    return vinoService.findById(id).map(vino -> {
-        model.addAttribute("vino", vino);
-        model.addAttribute("recensioni", vino.getRecensioni());
-        return "vini/dettaglio";
-    }).orElse("redirect:/vini");
-}
+    @GetMapping("/vini/{id}")
+    public String dettaglioVino(@PathVariable Long id, Model model) {
+        return vinoService.findById(id).map(vino -> {
+            model.addAttribute("vino", vino);
+            model.addAttribute("recensioni", recensioneService.findByVino(id)); // ← usa il service, non
+                                                                                // vino.getRecensioni()
+            return "vini/dettaglio";
+        }).orElse("redirect:/vini");
+    }
 
     @GetMapping("/vini/filtra")
     public String filtra(

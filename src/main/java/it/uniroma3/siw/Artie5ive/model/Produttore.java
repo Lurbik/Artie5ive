@@ -15,6 +15,7 @@ public class Produttore {
     @Column(nullable = false)
     private String nome;
 
+    @Column(columnDefinition = "TEXT")
     private String descrizione;
 
     private Integer annoFondazione;
