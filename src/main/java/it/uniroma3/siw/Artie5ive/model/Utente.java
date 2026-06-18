@@ -29,7 +29,7 @@ public class Utente {
     @Column(nullable = false)
     private String cognome;
 
-    @NotBlank
+    
     @Column(nullable = false, unique = true)
     private String email;
 

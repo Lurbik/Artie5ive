@@ -13,8 +13,10 @@ it\uniroma3\siw\Artie5ive\model\Vino.class
 it\uniroma3\siw\Artie5ive\repository\CategoriaRepository.class
 it\uniroma3\siw\Artie5ive\repository\UtenteRepository.class
 it\uniroma3\siw\Artie5ive\service\RecensioneService.class
+it\uniroma3\siw\Artie5ive\security\CustomOAuth2UserService.class
 it\uniroma3\siw\Artie5ive\controller\VinoRestController.class
 it\uniroma3\siw\Artie5ive\repository\VinoRepository.class
+it\uniroma3\siw\Artie5ive\security\PasswordEncoderConfig.class
 it\uniroma3\siw\Artie5ive\repository\ProduttoreRepository.class
 it\uniroma3\siw\Artie5ive\model\Regione.class
 it\uniroma3\siw\Artie5ive\controller\VinoController.class

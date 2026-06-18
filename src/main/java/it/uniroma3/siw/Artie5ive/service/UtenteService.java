@@ -35,4 +35,10 @@ public class UtenteService {
     public Optional<Utente> findById(Long id) {
         return utenteRepository.findById(id);
     }
+
+    
+   @Transactional(readOnly = true)
+public Optional<Utente> findByEmail(String email) {
+    return utenteRepository.findByEmail(email);
+}
 }
