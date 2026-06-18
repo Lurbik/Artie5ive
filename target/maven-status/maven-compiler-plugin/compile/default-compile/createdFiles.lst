@@ -7,7 +7,6 @@ it\uniroma3\siw\Artie5ive\controller\AdminRecensioneController.class
 it\uniroma3\siw\Artie5ive\controller\AdminRegioneController.class
 it\uniroma3\siw\Artie5ive\service\StorageService.class
 it\uniroma3\siw\Artie5ive\model\Recensione.class
-it\uniroma3\siw\Artie5ive\security\CustomUserDetailsService.class
 it\uniroma3\siw\Artie5ive\model\Vino.class
 it\uniroma3\siw\Artie5ive\repository\CategoriaRepository.class
 it\uniroma3\siw\Artie5ive\repository\UtenteRepository.class
@@ -29,7 +28,6 @@ it\uniroma3\siw\Artie5ive\controller\HomeController.class
 it\uniroma3\siw\Artie5ive\controller\UtenteController.class
 it\uniroma3\siw\Artie5ive\DataInitializer.class
 it\uniroma3\siw\Artie5ive\service\UtenteService.class
-it\uniroma3\siw\Artie5ive\security\SecurityConfig.class
 it\uniroma3\siw\Artie5ive\controller\ProduttoreController.class
 it\uniroma3\siw\Artie5ive\model\Utente.class
 it\uniroma3\siw\Artie5ive\controller\AdminProduttoreController.class

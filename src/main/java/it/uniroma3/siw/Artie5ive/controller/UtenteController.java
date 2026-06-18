@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import org.springframework.security.core.Authentication;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,14 +42,28 @@ public class UtenteController {
         return "redirect:/login";
     }
 
-    // Profilo utente loggato
-    @GetMapping("/profilo")
-    public String profilo(Principal principal, Model model) {
-        utenteService.findByUsername(principal.getName()).ifPresent(utente -> {
+
+
+@GetMapping("/profilo")
+public String profilo(Authentication authentication, Model model) {
+    String identifier;
+    
+    if (authentication.getPrincipal() instanceof org.springframework.security.oauth2.core.user.OAuth2User oauth2User) {
+        identifier = oauth2User.getAttribute("email");
+    } else {
+        identifier = authentication.getName();
+    }
+    
+    System.out.println(">>> IDENTIFIER: " + identifier);
+    
+    utenteService.findByUsername(identifier)
+        .or(() -> utenteService.findByEmail(identifier))
+        .ifPresent(utente -> {
             model.addAttribute("utente", utente);
             model.addAttribute("recensioni",
                 recensioneService.findByUtente(utente.getId()));
         });
-        return "utente/profilo";
-    }
+
+    return "utente/profilo";
+}
 }

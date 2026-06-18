@@ -17,8 +17,25 @@
                 <div th:if="${param.error}" class="error">
                     Credenziali non valide
                 </div>
-                <button type="submit" class="btn-primary">Accedi</button>
+                <div class="form-actions" style="justify-content:center">
+                    <button type="submit" class="btn-primary">Accedi</button>
+                </div>
             </form>
+
+            <div style="display:flex; align-items:center; gap:1rem; margin:1.5rem 0">
+                <div style="flex:1; height:1px; background:var(--border)"></div>
+                <span style="color:var(--text-muted); font-size:0.85rem">oppure</span>
+                <div style="flex:1; height:1px; background:var(--border)"></div>
+            </div>
+
+            <a href="/oauth2/authorization/google" class="btn-secondary"
+               style="display:block; text-align:center; padding:0.75rem">
+                🔵 Accedi con Google
+            </a>
+
+            <p style="text-align:center; margin-top:1.5rem; color:var(--text-muted); font-size:0.85rem">
+                Non hai un account? <a th:href="@{/registrazione}">Registrati</a>
+            </p>
         </div>
     </th:block>
 </body>
