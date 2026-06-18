@@ -15,5 +15,6 @@ public class Categoria {
     @Column(nullable = false, unique = true)
     private String nome;
 
+    @Column(columnDefinition = "TEXT")
     private String descrizione;
 }
