@@ -55,6 +55,9 @@
                             Scrivi una recensione
                         </a>
                     </div>
+                    <div style="margin-top:1rem">
+                        <a th:href="@{/vini}" class="btn-secondary">← Torna al catalogo</a>
+                    </div>
                     <div sec:authorize="isAnonymous()" style="margin-top:1.5rem">
                         <a th:href="@{/login}" class="btn-secondary">Accedi per recensire</a>
                     </div>
