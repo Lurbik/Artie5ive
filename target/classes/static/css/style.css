@@ -1,9 +1,9 @@
 /* ===== VARIABILI ===== */
 :root {
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #111111;
-    --bg-card: #1a1a1a;
-    --bg-card-hover: #222222;
+    --bg-primary: #0d0b09;
+    --bg-secondary: #141210;
+    --bg-card: #1c1814;
+    --bg-card-hover: #231f1a;
     --accent-gold: #c9a84c;
     --accent-gold-light: #e8c97a;
     --accent-wine: #722f37;
@@ -11,7 +11,7 @@
     --text-primary: #f0ebe3;
     --text-secondary: #a89880;
     --text-muted: #666666;
-    --border: #2a2a2a;
+    --border: #333;
     --border-gold: #c9a84c44;
     --shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
     --shadow-gold: 0 0 20px rgba(201, 168, 76, 0.15);
@@ -56,7 +56,7 @@ a:hover {
 
 /* ===== NAVBAR ===== */
 nav {
-    background: rgba(10, 10, 10, 0.95);
+    background: rgba(13, 11, 9, 0.97);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-gold);
     padding: 0 2rem;
@@ -224,17 +224,17 @@ nav {
 }
 
 .card {
-    background: var(--bg-card);
+    background: linear-gradient(160deg, #221e18, #1a1612);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
 }
 
 .card:hover {
     border-color: var(--border-gold);
-    box-shadow: var(--shadow-gold);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
 }
 
 .card-img {
@@ -287,7 +287,7 @@ nav {
     height: 2px;
     background: linear-gradient(90deg, var(--accent-wine), var(--accent-gold));
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .card:hover::before {

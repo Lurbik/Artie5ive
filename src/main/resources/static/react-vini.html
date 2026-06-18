@@ -13,9 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
     <style>
         :root {
-            --bg: #0a0a0a;
-            --bg-card: #1a1a1a;
-            --bg-sec: #111;
+            --bg: #0d0b09;
+            --bg-card: #1c1814;
+            --bg-sec: #141210;
             --gold: #c9a84c;
             --gold-light: #e8c97a;
             --wine: #722f37;
@@ -23,7 +23,7 @@
             --text: #f0ebe3;
             --text-sec: #a89880;
             --muted: #666;
-            --border: #2a2a2a;
+            --border: #333;
             --border-gold: #c9a84c44;
             --radius: 8px;
             --font: 'Playfair Display', serif;
@@ -188,11 +188,11 @@
         }
 
         .card {
-            background: var(--bg-card);
+            background: linear-gradient(160deg, #221e18, #1a1612);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             overflow: hidden;
-            transition: all 0.3s;
+            transition: all 0.3s ease-in-out;
             cursor: pointer;
         }
 
@@ -207,11 +207,17 @@
 
         .card:hover {
             border-color: var(--border-gold);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
         }
 
-        .card:hover::before {
-            opacity: 1;
+        .card::before {
+            content: '';
+            display: block;
+            height: 2px;
+            background: linear-gradient(90deg, var(--wine), var(--gold));
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
         }
 
         .card-placeholder {
