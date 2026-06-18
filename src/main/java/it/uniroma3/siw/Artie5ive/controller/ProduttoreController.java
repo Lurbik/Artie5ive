@@ -20,8 +20,9 @@ public class ProduttoreController {
 
     @GetMapping("/produttori/{id}")
     public String dettaglio(@PathVariable Long id, Model model) {
-        produttoreService.findById(id).ifPresent(p ->
-            model.addAttribute("produttore", p));
+    return produttoreService.findById(id).map(p -> {
+        model.addAttribute("produttore", p);
         return "produttori/dettaglio";
+    }).orElse("redirect:/produttori");
     }
 }
