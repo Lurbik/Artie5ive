@@ -537,7 +537,7 @@
                 fetch('/api/vini')
                     .then(r => r.json())
                     .then(data => { setVini(data); setLoading(false); })
-                    .catch(() => { setRecensioni([]); setLoading(false); });
+                    .catch(() => setLoading(false));
             }, []);
 
             const viniFiltrati = vini.filter(v => {
