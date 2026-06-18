@@ -41,6 +41,7 @@ public class DataInitializer implements CommandLineRunner {
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setNome("Admin");
             admin.setCognome("Sistema");
+            admin.setEmail("admin@artie5ive.it");
             admin.setRuolo(RuoloUtente.ADMIN);
             utenteRepository.save(admin);
             System.out.println(">>> Admin creato: admin / admin123");
@@ -53,6 +54,7 @@ public class DataInitializer implements CommandLineRunner {
             user.setPassword(passwordEncoder.encode("mario123"));
             user.setNome("Mario");
             user.setCognome("Rossi");
+            user.setEmail("mario@rossi.it");
             user.setRuolo(RuoloUtente.USER);
             utenteRepository.save(user);
         }
