@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Regione')}">
+
+<body>
+    <th:block th:fragment="content">
+        <div class="page-header">
+            <h1 th:text="${regione.id == null} ? 'Nuova Regione' : 'Modifica Regione'"></h1>
+            <a th:href="@{/admin/regioni}" class="btn-secondary">← Indietro</a>
+        </div>
+        <div class="form-container" style="margin-top:0">
+            <form
+                th:action="${regione.id == null} ? @{/admin/regioni/nuovo} : @{/admin/regioni/modifica/{id}(id=${regione.id})}"
+                th:object="${regione}" method="post">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" th:field="*{nome}" required />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Salva</button>
+                </div>
+            </form>
+        </div>
+    </th:block>
+</body>
+
+</html>

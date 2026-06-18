@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Gestione Regioni')}">
+
+<body>
+    <th:block th:fragment="content">
+        <div class="page-header">
+            <h1>Regioni</h1>
+            <a th:href="@{/admin/regioni/nuovo}" class="btn-primary">+ Nuova Regione</a>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="r : ${regioni}">
+                        <td th:text="${r.nome}"></td>
+                        <td style="display:flex; gap:0.5rem">
+                            <a th:href="@{/admin/regioni/modifica/{id}(id=${r.id})}" class="btn-secondary">Modifica</a>
+                            <form th:action="@{/admin/regioni/elimina/{id}(id=${r.id})}" method="post">
+                                <button type="submit" class="btn-danger"
+                                    onclick="return confirm('Eliminare questa regione?')">Elimina</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+</body>
+
+</html>
