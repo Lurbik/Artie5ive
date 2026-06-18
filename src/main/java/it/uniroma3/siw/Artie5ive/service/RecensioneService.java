@@ -39,6 +39,11 @@ public class RecensioneService {
         return recensioneRepository.findAllWithDetails();
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Recensione> findByIdWithUtente(Long id) {
+        return recensioneRepository.findByIdWithUtente(id);
+    }
+
     @Transactional
     public Recensione save(Recensione recensione) {
         if (recensioneRepository.existsByUtenteIdAndVinoId(
@@ -54,16 +59,8 @@ public class RecensioneService {
         recensioneRepository.deleteById(id);
     }
 
-    public Optional<Recensione> findById(Long id) {
-        return recensioneRepository.findById(id);
-    }
-
-    public List<Recensione> findAll() {
-        return recensioneRepository.findAll();
-    }
-
     @Transactional
     public Recensione aggiorna(Recensione recensione) {
-        return recensioneRepository.save(recensione);  // minuscolo! è il campo, non la classe
+        return recensioneRepository.save(recensione);
     }
 }
