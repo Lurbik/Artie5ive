@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import it.uniroma3.siw.Artie5ive.service.RecensioneService;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,10 +29,9 @@ public class VinoController {
 
     @GetMapping("/vini/{id}")
     public String dettaglioVino(@PathVariable Long id, Model model) {
-        return vinoService.findById(id).map(vino -> {
+        return vinoService.findByIdWithDetails(id).map(vino -> {
             model.addAttribute("vino", vino);
-            model.addAttribute("recensioni", recensioneService.findByVino(id)); // ← usa il service, non
-                                                                                // vino.getRecensioni()
+            model.addAttribute("recensioni", recensioneService.findByVino(id));
             return "vini/dettaglio";
         }).orElse("redirect:/vini");
     }

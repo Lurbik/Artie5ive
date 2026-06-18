@@ -64,4 +64,8 @@ public class VinoService {
             return (List<Vino>) vinoRepository.findAll();
         }
     }
+
+    public Optional<Vino> findByIdWithDetails(Long id) {
+        return vinoRepository.findByIdWithDetails(id);
+    }
 }
