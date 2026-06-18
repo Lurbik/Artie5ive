@@ -3,15 +3,64 @@
       th:replace="~{layout :: layout(~{::content}, 'Dettaglio Produttore')}">
 <body>
     <th:block th:fragment="content">
+
         <div th:if="${produttore != null}">
-            <div class="page-header">
-                <h1 th:text="${produttore.nome}"></h1>
+
+            <div class="dettaglio-grid">
+                <!-- Immagine -->
+                <div>
+                    <div class="card-img-placeholder"
+                         th:if="${produttore.immagine == null}"
+                         style="height:350px; border-radius:var(--radius); border:1px solid var(--border)">
+                        🏭
+                    </div>
+                    <img class="dettaglio-img"
+                         th:if="${produttore.immagine != null}"
+                         th:src="@{/uploads/{img}(img=${produttore.immagine})}"
+                         th:alt="${produttore.nome}" />
+                </div>
+
+                <!-- Info -->
+                <div class="dettaglio-info">
+                    <h1 th:text="${produttore.nome}"></h1>
+                    <div class="dettaglio-meta"
+                         th:if="${produttore.regione != null}"
+                         th:text="${produttore.regione.nome}">
+                    </div>
+
+                    <div class="dettaglio-attributi">
+                        <div class="attributo" th:if="${produttore.annoFondazione != null}">
+                            <div class="attributo-label">Anno Fondazione</div>
+                            <div class="attributo-value" th:text="${produttore.annoFondazione}"></div>
+                        </div>
+                        <div class="attributo" th:if="${produttore.regione != null}">
+                            <div class="attributo-label">Regione</div>
+                            <div class="attributo-value" th:text="${produttore.regione.nome}"></div>
+                        </div>
+                    </div>
+
+                    <p class="card-text"
+                       th:if="${produttore.descrizione != null}"
+                       th:text="${produttore.descrizione}">
+                    </p>
+
+                    <a th:href="@{/produttori}" class="btn-secondary" style="margin-top:1.5rem">
+                        ← Tutti i produttori
+                    </a>
+                </div>
             </div>
-            <p><strong>Regione:</strong> <span th:text="${produttore.regione?.nome}"></span></p>
-            <p><strong>Anno fondazione:</strong> <span th:text="${produttore.annoFondazione}"></span></p>
-            <p th:text="${produttore.descrizione}"></p>
-            <a th:href="@{/produttori}" class="btn-secondary">← Tutti i produttori</a>
+
         </div>
+
+        <!-- Produttore non trovato -->
+        <div th:if="${produttore == null}"
+             style="text-align:center; padding:4rem; color:var(--text-muted)">
+            <p>Produttore non trovato.</p>
+            <a th:href="@{/produttori}" class="btn-secondary" style="margin-top:1rem">
+                ← Torna ai produttori
+            </a>
+        </div>
+
     </th:block>
 </body>
 </html>

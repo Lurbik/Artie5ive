@@ -3,35 +3,63 @@
       th:replace="~{layout :: layout(~{::content}, 'Produttore')}">
 <body>
     <th:block th:fragment="content">
-        <h2 th:text="${produttore.id == null} ? 'Nuovo Produttore' : 'Modifica Produttore'"></h2>
+
+        <div class="page-header">
+            <h1 th:text="${produttore.id == null} ? 'Nuovo Produttore' : 'Modifica Produttore'"></h1>
+            <a th:href="@{/admin/produttori}" class="btn-secondary">← Indietro</a>
+        </div>
 
         <form th:action="${produttore.id == null} ? @{/admin/produttori/nuovo} : @{/admin/produttori/modifica/{id}(id=${produttore.id})}"
-              th:object="${produttore}" method="post">
-            <div class="form-group">
-                <label>Nome</label>
-                <input type="text" th:field="*{nome}" />
-                <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error"></span>
+              th:object="${produttore}" method="post" enctype="multipart/form-data">
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem">
+                <div>
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" th:field="*{nome}" required />
+                        <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Anno Fondazione</label>
+                        <input type="number" th:field="*{annoFondazione}" min="1000" max="2026" />
+                    </div>
+                    <div class="form-group">
+                        <label>Regione</label>
+                        <select th:field="*{regione}">
+                            <option value="">-- Seleziona regione --</option>
+                            <option th:each="r : ${regioni}"
+                                    th:value="${r.id}"
+                                    th:text="${r.nome}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label>Immagine</label>
+                        <input type="file" name="immagineFile" accept="image/*"
+                               style="color:var(--text-secondary)" />
+                        <div th:if="${produttore.immagine != null}" style="margin-top:0.75rem">
+                            <img th:src="@{/uploads/{img}(img=${produttore.immagine})}"
+                                 style="width:120px; height:120px; object-fit:cover;
+                                        border-radius:var(--radius); border:1px solid var(--border)" />
+                            <p style="color:var(--text-muted); font-size:0.8rem; margin-top:0.4rem">
+                                Immagine attuale — carica un nuovo file per sostituirla
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="form-group">
                 <label>Descrizione</label>
-                <textarea th:field="*{descrizione}" rows="3"></textarea>
+                <textarea th:field="*{descrizione}" rows="4"></textarea>
             </div>
-            <div class="form-group">
-                <label>Anno Fondazione</label>
-                <input type="number" th:field="*{annoFondazione}" />
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Salva</button>
             </div>
-            <div class="form-group">
-                <label>Regione</label>
-                <select th:field="*{regione}">
-                    <option value="">-- Seleziona regione --</option>
-                    <option th:each="r : ${regioni}"
-                            th:value="${r.id}"
-                            th:text="${r.nome}"></option>
-                </select>
-            </div>
-            <button type="submit" class="btn-primary">Salva</button>
-            <a th:href="@{/admin/produttori}">Annulla</a>
         </form>
+
     </th:block>
 </body>
 </html>
