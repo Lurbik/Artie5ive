@@ -1,7 +1,7 @@
 package it.uniroma3.siw.Artie5ive.controller;
 
 import it.uniroma3.siw.Artie5ive.model.Recensione;
-import it.uniroma3.siw.Artie5ive.model.Vino;
+
 import it.uniroma3.siw.Artie5ive.service.RecensioneService;
 import it.uniroma3.siw.Artie5ive.service.UtenteService;
 import it.uniroma3.siw.Artie5ive.service.VinoService;
@@ -63,4 +63,33 @@ public class RecensioneController {
         });
         return "redirect:/profilo";
     }
+
+        @GetMapping("/modifica/{id}")
+    public String formModifica(@PathVariable Long id, Model model, Principal principal) {
+        recensioneService.findById(id).ifPresent(rec -> {
+            if (rec.getUtente().getUsername().equals(principal.getName())) {
+                model.addAttribute("recensione", rec);
+                model.addAttribute("vinoId", rec.getVino().getId());
+            }
+        });
+        return "recensioni/form";
+    }
+
+    @PostMapping("/modifica/{id}")
+    public String aggiorna(@PathVariable Long id,
+                            @Valid @ModelAttribute("recensione") Recensione recensione,
+                            BindingResult result,
+                            Principal principal) {
+        if (result.hasErrors()) return "recensioni/form";
+        recensioneService.findById(id).ifPresent(rec -> {
+            if (rec.getUtente().getUsername().equals(principal.getName())) {
+                rec.setTesto(recensione.getTesto());
+                rec.setVoto(recensione.getVoto());
+                recensioneService.aggiorna(rec);
+            }
+        });
+        return "redirect:/profilo";
+    }
+
+    
 }

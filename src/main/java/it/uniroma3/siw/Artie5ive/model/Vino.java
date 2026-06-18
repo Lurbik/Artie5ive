@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
 import java.util.ArrayList;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -26,10 +27,12 @@ public class Vino {
 
     private Double gradazione;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ColoreVino colore;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StileVino stile;
@@ -48,4 +51,6 @@ public class Vino {
 
     @OneToMany(mappedBy = "vino", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recensione> recensioni = new ArrayList<>();
+
+    
 }

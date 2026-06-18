@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content}, 'Gestione Recensioni')}">
+<body>
+    <th:block th:fragment="content">
+        <div class="page-header">
+            <h1>Gestione Recensioni</h1>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utente</th>
+                        <th>Vino</th>
+                        <th>Voto</th>
+                        <th>Testo</th>
+                        <th>Data</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="rec : ${recensioni}">
+                        <td th:text="${rec.utente.username}"></td>
+                        <td th:text="${rec.vino.nome}"></td>
+                        <td th:text="${rec.voto} + '/5'"></td>
+                        <td th:text="${rec.testo}"></td>
+                        <td th:text="${rec.data}"></td>
+                        <td>
+                            <form th:action="@{/admin/recensioni/elimina/{id}(id=${rec.id})}"
+                                  method="post">
+                                <button type="submit" class="btn-danger"
+                                        onclick="return confirm('Eliminare questa recensione?')">
+                                    Elimina
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+</body>
+</html>

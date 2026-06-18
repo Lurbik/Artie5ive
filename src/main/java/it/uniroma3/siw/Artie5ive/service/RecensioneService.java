@@ -44,4 +44,13 @@ public class RecensioneService {
     public Optional<Recensione> findById(Long id) {
         return recensioneRepository.findById(id);
     }
+
+    public List<Recensione> findAll() {
+        return recensioneRepository.findAll();
+    }
+
+        @Transactional
+    public Recensione aggiorna(Recensione recensione) {
+        return recensioneRepository.save(recensione);  // minuscolo! è il campo, non la classe
+    }
 }
