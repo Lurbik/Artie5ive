@@ -14,16 +14,29 @@ public class RecensioneService {
 
     private final RecensioneRepository recensioneRepository;
 
+    @Transactional(readOnly = true)
     public List<Recensione> findByVino(Long vinoId) {
         return recensioneRepository.findByVinoId(vinoId);
     }
 
+    @Transactional(readOnly = true)
     public List<Recensione> findByUtente(Long utenteId) {
         return recensioneRepository.findByUtenteId(utenteId);
     }
 
+    @Transactional(readOnly = true)
     public boolean haScritto(Long utenteId, Long vinoId) {
         return recensioneRepository.existsByUtenteIdAndVinoId(utenteId, vinoId);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Recensione> findById(Long id) {
+        return recensioneRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Recensione> findAll() {
+        return recensioneRepository.findAllWithDetails();
     }
 
     @Transactional
@@ -41,16 +54,8 @@ public class RecensioneService {
         recensioneRepository.deleteById(id);
     }
 
-    public Optional<Recensione> findById(Long id) {
-        return recensioneRepository.findById(id);
-    }
-
-    public List<Recensione> findAll() {
-        return recensioneRepository.findAll();
-    }
-
-        @Transactional
+    @Transactional
     public Recensione aggiorna(Recensione recensione) {
-        return recensioneRepository.save(recensione);  // minuscolo! è il campo, non la classe
+        return recensioneRepository.save(recensione);
     }
 }
