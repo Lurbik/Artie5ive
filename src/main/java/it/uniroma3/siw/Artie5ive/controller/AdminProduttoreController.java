@@ -3,12 +3,16 @@ package it.uniroma3.siw.Artie5ive.controller;
 import it.uniroma3.siw.Artie5ive.model.Produttore;
 import it.uniroma3.siw.Artie5ive.service.ProduttoreService;
 import it.uniroma3.siw.Artie5ive.service.RegioneService;
+import it.uniroma3.siw.Artie5ive.service.StorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/admin/produttori")
@@ -31,12 +35,20 @@ public class AdminProduttoreController {
         return "admin/produttori/form";
     }
 
+    @Autowired
+    private StorageService storageService;
+
     @PostMapping("/nuovo")
     public String salva(@Valid @ModelAttribute("produttore") Produttore produttore,
-                        BindingResult result, Model model) {
+            BindingResult result,
+            @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
+            Model model) {
         if (result.hasErrors()) {
             model.addAttribute("regioni", regioneService.findAll());
             return "admin/produttori/form";
+        }
+        if (immagineFile != null && !immagineFile.isEmpty()) {
+            produttore.setImmagine(storageService.salva(immagineFile));
         }
         produttoreService.save(produttore);
         return "redirect:/admin/produttori";
@@ -44,20 +56,29 @@ public class AdminProduttoreController {
 
     @GetMapping("/modifica/{id}")
     public String formModifica(@PathVariable Long id, Model model) {
-        produttoreService.findById(id).ifPresent(p ->
-            model.addAttribute("produttore", p));
+        produttoreService.findById(id).ifPresent(p -> model.addAttribute("produttore", p));
         model.addAttribute("regioni", regioneService.findAll());
         return "admin/produttori/form";
     }
 
     @PostMapping("/modifica/{id}")
     public String aggiorna(@PathVariable Long id,
-                           @Valid @ModelAttribute("produttore") Produttore produttore,
-                           BindingResult result, Model model) {
+            @Valid @ModelAttribute("produttore") Produttore produttore,
+            BindingResult result,
+            @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
+            Model model) {
         if (result.hasErrors()) {
             model.addAttribute("regioni", regioneService.findAll());
             return "admin/produttori/form";
         }
+        produttoreService.findById(id).ifPresent(esistente -> {
+            if (immagineFile != null && !immagineFile.isEmpty()) {
+                storageService.elimina(esistente.getImmagine());
+                produttore.setImmagine(storageService.salva(immagineFile));
+            } else {
+                produttore.setImmagine(esistente.getImmagine());
+            }
+        });
         produttore.setId(id);
         produttoreService.save(produttore);
         return "redirect:/admin/produttori";
