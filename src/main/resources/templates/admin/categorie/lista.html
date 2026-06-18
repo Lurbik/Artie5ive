@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Gestione Categorie')}">
+
+<body>
+    <th:block th:fragment="content">
+        <div class="page-header">
+            <h1>Categorie</h1>
+            <a th:href="@{/admin/categorie/nuovo}" class="btn-primary">+ Nuova Categoria</a>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrizione</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="c : ${categorie}">
+                        <td th:text="${c.nome}"></td>
+                        <td th:text="${c.descrizione}"></td>
+                        <td style="display:flex; gap:0.5rem">
+                            <a th:href="@{/admin/categorie/modifica/{id}(id=${c.id})}"
+                                class="btn-secondary">Modifica</a>
+                            <form th:action="@{/admin/categorie/elimina/{id}(id=${c.id})}" method="post">
+                                <button type="submit" class="btn-danger"
+                                    onclick="return confirm('Eliminare questa categoria?')">Elimina</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Vino')}">
+
+<body>
+    <th:block th:fragment="content">
+        <div class="page-header">
+            <h1 th:text="${vino.id == null} ? 'Nuovo Vino' : 'Modifica Vino'"></h1>
+            <a th:href="@{/admin/vini}" class="btn-secondary">← Indietro</a>
+        </div>
+
+        <form th:action="${vino.id == null} ? @{/admin/vini/nuovo} : @{/admin/vini/modifica/{id}(id=${vino.id})}"
+            th:object="${vino}" method="post" enctype="multipart/form-data">
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem">
+                <div>
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" th:field="*{nome}" required />
+                        <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Annata</label>
+                        <input type="number" th:field="*{annata}" min="1000" max="2026" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Gradazione (%)</label>
+                        <input type="number" th:field="*{gradazione}" step="0.1" min="0" max="25" />
+                    </div>
+                    <div class="form-group">
+                        <label>Colore</label>
+                        <select th:field="*{colore}" required>
+                            <option value="">-- Seleziona --</option>
+                            <option th:each="c : ${T(it.uniroma3.siw.Artie5ive.model.ColoreVino).values()}"
+                                th:value="${c}" th:text="${c}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Stile</label>
+                        <select th:field="*{stile}" required>
+                            <option value="">-- Seleziona --</option>
+                            <option th:each="s : ${T(it.uniroma3.siw.Artie5ive.model.StileVino).values()}"
+                                th:value="${s}" th:text="${s}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label>Produttore</label>
+                        <select th:field="*{produttore}">
+                            <option value="">-- Nessuno --</option>
+                            <option th:each="p : ${produttori}" th:value="${p.id}" th:text="${p.nome}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Regione</label>
+                        <select th:field="*{regione}">
+                            <option value="">-- Nessuna --</option>
+                            <option th:each="r : ${regioni}" th:value="${r.id}" th:text="${r.nome}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categorie</label>
+                        <div
+                            style="display:flex; flex-wrap:wrap; gap:0.5rem; padding:0.75rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius)">
+                            <label th:each="cat : ${categorie}"
+                                style="display:flex; align-items:center; gap:0.4rem; cursor:pointer; color:var(--text-secondary); font-size:0.85rem">
+                                <input type="checkbox" name="categorieIds" th:value="${cat.id}"
+                                    th:checked="${vino.categorie != null and vino.categorie.contains(cat)}" />
+                                <span th:text="${cat.nome}"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Immagine</label>
+                        <input type="file" name="immagineFile" accept="image/*" style="color:var(--text-secondary)" />
+                        <div th:if="${vino.immagine != null}" style="margin-top:0.5rem">
+                            <img th:src="@{/uploads/{img}(img=${vino.immagine})}"
+                                style="width:80px; height:80px; object-fit:cover; border-radius:var(--radius); border:1px solid var(--border)" />
+                            <small style="color:var(--text-muted); margin-left:0.5rem">immagine attuale</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Descrizione</label>
+                <textarea th:field="*{descrizione}" rows="4"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Salva</button>
+            </div>
+        </form>
+    </th:block>
+</body>
+
+</html>

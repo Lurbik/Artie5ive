@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Gestione Vini')}">
+
+<body>
+    <th:block th:fragment="content">
+        <div class="page-header">
+            <h1>Gestione Vini</h1>
+            <a th:href="@{/admin/vini/nuovo}" class="btn-primary">+ Nuovo Vino</a>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Annata</th>
+                        <th>Produttore</th>
+                        <th>Colore</th>
+                        <th>Stile</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="v : ${vini}">
+                        <td th:text="${v.nome}"></td>
+                        <td th:text="${v.annata}"></td>
+                        <td th:text="${v.produttore?.nome}"></td>
+                        <td><span class="badge badge-wine" th:text="${v.colore}"></span></td>
+                        <td><span class="badge badge-muted" th:text="${v.stile}"></span></td>
+                        <td style="display:flex; gap:0.5rem">
+                            <a th:href="@{/admin/vini/modifica/{id}(id=${v.id})}" class="btn-secondary">Modifica</a>
+                            <form th:action="@{/admin/vini/elimina/{id}(id=${v.id})}" method="post">
+                                <button type="submit" class="btn-danger"
+                                    onclick="return confirm('Eliminare questo vino?')">Elimina</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+</body>
+
+</html>
