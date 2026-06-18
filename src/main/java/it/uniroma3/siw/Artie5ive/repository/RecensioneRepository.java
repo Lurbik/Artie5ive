@@ -10,4 +10,5 @@ public interface RecensioneRepository extends JpaRepository<Recensione, Long> {
     List<Recensione> findByUtenteId(Long utenteId);
     Optional<Recensione> findByUtenteIdAndVinoId(Long utenteId, Long vinoId);
     boolean existsByUtenteIdAndVinoId(Long utenteId, Long vinoId);
+    
 }

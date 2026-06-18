@@ -47,3 +47,33 @@
                 </div>
 
                 <div th:each="rec : ${recensioni}" class="recensione-card">
+                    <div class="recensione-header">
+                        <span class="recensione-autore" th:text="${rec.vino.nome}"></span>
+                        <div class="stelle">
+                            <th:block th:each="i : ${#numbers.sequence(1, rec.voto)}">★</th:block>
+                            <th:block th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">☆</th:block>
+                        </div>
+                    </div>
+                    <p class="recensione-testo" th:text="${rec.testo}"></p>
+                    <p style="color: var(--text-muted); font-size:0.8rem; margin-top:0.5rem"
+                       th:text="${rec.data}"></p>
+                    <div style="display:flex; gap:0.75rem; margin-top:1rem">
+                        <a th:href="@{/recensioni/modifica/{id}(id=${rec.id})}"
+                           class="btn-secondary" style="font-size:0.8rem; padding:0.4rem 1rem">
+                            Modifica
+                        </a>
+                        <form th:action="@{/recensioni/elimina/{id}(id=${rec.id})}" method="post">
+                            <button type="submit" class="btn-danger"
+                                    style="font-size:0.8rem; padding:0.4rem 1rem"
+                                    onclick="return confirm('Eliminare questa recensione?')">
+                                Elimina
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </th:block>
+</body>
+</html>
