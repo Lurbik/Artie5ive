@@ -6,7 +6,7 @@
         <div class="page-header">
             <h1>Produttori</h1>
         </div>
-        <div class="card-grid">
+        <div class="produttori-grid">
             <div class="card" th:each="p : ${produttori}">
                 <div class="card-img-placeholder" th:if="${p.immagine == null}">🏭</div>
                 <img class="card-img" th:if="${p.immagine != null}" th:src="@{/uploads/{img}(img=${p.immagine})}"
