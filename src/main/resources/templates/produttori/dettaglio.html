@@ -1,31 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(~{::content}, 'Dettaglio Produttore')}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Dettaglio Produttore')}">
+
 <body>
     <th:block th:fragment="content">
 
         <div th:if="${produttore != null}">
 
             <div class="dettaglio-grid">
-                <!-- Immagine -->
                 <div>
-                    <div class="card-img-placeholder"
-                         th:if="${produttore.immagine == null}"
-                         style="height:350px; border-radius:var(--radius); border:1px solid var(--border)">
+                    <div class="card-img-placeholder" th:if="${produttore.immagine == null}"
+                        style="height:350px; border-radius:var(--radius); border:1px solid var(--border)">
                         🏭
                     </div>
-                    <img class="dettaglio-img"
-                         th:if="${produttore.immagine != null}"
-                         th:src="@{/uploads/{img}(img=${produttore.immagine})}"
-                         th:alt="${produttore.nome}" />
+                    <img class="dettaglio-img" th:if="${produttore.immagine != null}"
+                        th:src="@{/uploads/{img}(img=${produttore.immagine})}" th:alt="${produttore.nome}" />
                 </div>
 
-                <!-- Info -->
                 <div class="dettaglio-info">
                     <h1 th:text="${produttore.nome}"></h1>
-                    <div class="dettaglio-meta"
-                         th:if="${produttore.regione != null}"
-                         th:text="${produttore.regione.nome}">
+                    <div class="dettaglio-meta" th:if="${produttore.regione != null}"
+                        th:text="${produttore.regione.nome}">
                     </div>
 
                     <div class="dettaglio-attributi">
@@ -39,9 +33,7 @@
                         </div>
                     </div>
 
-                    <p class="card-text"
-                       th:if="${produttore.descrizione != null}"
-                       th:text="${produttore.descrizione}">
+                    <p class="card-text" th:if="${produttore.descrizione != null}" th:text="${produttore.descrizione}">
                     </p>
 
                     <a th:href="@{/produttori}" class="btn-secondary" style="margin-top:1.5rem">
@@ -50,11 +42,36 @@
                 </div>
             </div>
 
+            <!-- Vini del produttore -->
+            <div class="page-header" style="margin-top:3rem">
+                <h1 style="font-size:1.5rem">I vini di <span th:text="${produttore.nome}"></span></h1>
+            </div>
+
+            <div th:if="${#lists.isEmpty(vini)}" style="color:var(--text-muted); text-align:center; padding:2rem">
+                Nessun vino disponibile per questo produttore.
+            </div>
+
+            <div class="card-grid" th:unless="${#lists.isEmpty(vini)}">
+                <div class="card" th:each="vino : ${vini}">
+                    <div class="card-img-placeholder" th:if="${vino.immagine == null}">🍷</div>
+                    <img class="card-img" th:if="${vino.immagine != null}"
+                        th:src="@{/uploads/{img}(img=${vino.immagine})}" th:alt="${vino.nome}" />
+                    <div class="card-body">
+                        <div class="card-title" th:text="${vino.nome}"></div>
+                        <div class="card-subtitle" th:text="${vino.annata}"></div>
+                        <div style="margin-bottom:0.75rem">
+                            <span class="badge badge-wine" th:text="${vino.colore}"></span>
+                            <span class="badge badge-muted" th:text="${vino.stile}"></span>
+                        </div>
+                        <a th:href="@{/vini/{id}(id=${vino.id})}" class="btn-primary"
+                            style="font-size:0.8rem; padding:0.5rem 1rem">Scopri</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Produttore non trovato -->
-        <div th:if="${produttore == null}"
-             style="text-align:center; padding:4rem; color:var(--text-muted)">
+        <div th:if="${produttore == null}" style="text-align:center; padding:4rem; color:var(--text-muted)">
             <p>Produttore non trovato.</p>
             <a th:href="@{/produttori}" class="btn-secondary" style="margin-top:1rem">
                 ← Torna ai produttori
@@ -63,4 +80,5 @@
 
     </th:block>
 </body>
+
 </html>
