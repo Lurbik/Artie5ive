@@ -24,14 +24,14 @@ public class VinoController {
         return "vini/lista";
     }
 
-    @GetMapping("/vini/{id}")
-    public String dettaglioVino(@PathVariable Long id, Model model) {
-        vinoService.findById(id).ifPresent(vino -> {
-            model.addAttribute("vino", vino);
-            model.addAttribute("recensioni", vino.getRecensioni());
-        });
+   @GetMapping("/vini/{id}")
+public String dettaglioVino(@PathVariable Long id, Model model) {
+    return vinoService.findById(id).map(vino -> {
+        model.addAttribute("vino", vino);
+        model.addAttribute("recensioni", vino.getRecensioni());
         return "vini/dettaglio";
-    }
+    }).orElse("redirect:/vini");
+}
 
     @GetMapping("/vini/filtra")
     public String filtra(
