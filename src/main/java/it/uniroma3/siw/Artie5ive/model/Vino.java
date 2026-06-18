@@ -21,6 +21,7 @@ public class Vino {
     @Column(nullable = false)
     private Integer annata;
 
+    @Column(columnDefinition = "TEXT")
     private String descrizione;
 
     private String immagine;
@@ -52,5 +53,4 @@ public class Vino {
     @OneToMany(mappedBy = "vino", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recensione> recensioni = new ArrayList<>();
 
-    
 }
