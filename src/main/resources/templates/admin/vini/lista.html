@@ -28,15 +28,42 @@
                         <td><span class="badge badge-muted" th:text="${v.stile}"></span></td>
                         <td style="display:flex; gap:0.5rem">
                             <a th:href="@{/admin/vini/modifica/{id}(id=${v.id})}" class="btn-secondary">Modifica</a>
-                            <form th:action="@{/admin/vini/elimina/{id}(id=${v.id})}" method="post">
-                                <button type="submit" class="btn-danger"
-                                    onclick="return confirm('Eliminare questo vino?')">Elimina</button>
-                            </form>
+                            <button type="button" class="btn-danger"
+                                th:attr="onclick='apriModal(' + ${v.id} + ')'">Elimina</button>
+                            <form th:id="'form-elimina-' + ${v.id}" th:action="@{/admin/vini/elimina/{id}(id=${v.id})}"
+                                method="post" style="display:none"></form>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div id="modal-overlay" style="display:none; position:fixed; inset:0;
+     background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center">
+            <div style="background:var(--bg-card); border:1px solid var(--border-gold);
+                border-radius:var(--radius); padding:2rem; max-width:400px; width:90%;
+                text-align:center; box-shadow:0 0 40px rgba(201,168,76,0.2)">
+                <div style="font-size:2rem; margin-bottom:1rem">🗑️</div>
+                <h3 style="font-family:var(--font-main); color:var(--accent-gold);
+                   font-weight:normal; margin-bottom:0.75rem; font-size:1.4rem">Elimina vino</h3>
+                <p style="color:var(--text-secondary); margin-bottom:1.75rem; font-size:0.95rem; line-height:1.5">
+                    Sei sicuro di voler eliminare questo vino?<br>
+                    <span style="color:var(--text-muted); font-size:0.85rem">L'operazione è irreversibile.</span>
+                </p>
+                <div style="display:flex; gap:1rem; justify-content:center">
+                    <button type="button" class="btn-secondary" onclick="chiudiModal()">Annulla</button>
+                    <button type="button" class="btn-danger" id="btn-conferma">Elimina</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            let formIdCorrente = null;
+            function apriModal(id) { formIdCorrente = id; document.getElementById('modal-overlay').style.display = 'flex'; }
+            function chiudiModal() { document.getElementById('modal-overlay').style.display = 'none'; formIdCorrente = null; }
+            document.getElementById('btn-conferma').addEventListener('click', function () {
+                if (formIdCorrente !== null) document.getElementById('form-elimina-' + formIdCorrente).submit();
+            });
+            document.getElementById('modal-overlay').addEventListener('click', function (e) { if (e.target === this) chiudiModal(); });
+        </script>
     </th:block>
 </body>
 
