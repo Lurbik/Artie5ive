@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Produttore')}">
-
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content}, 'Produttore')}">
 <body>
     <th:block th:fragment="content">
 
@@ -9,9 +9,8 @@
             <a th:href="@{/admin/produttori}" class="btn-secondary">← Indietro</a>
         </div>
 
-        <form
-            th:action="${produttore.id == null} ? @{/admin/produttori/nuovo} : @{/admin/produttori/modifica/{id}(id=${produttore.id})}"
-            th:object="${produttore}" method="post" enctype="multipart/form-data">
+        <form th:action="${produttore.id == null} ? @{/admin/produttori/nuovo} : @{/admin/produttori/modifica/{id}(id=${produttore.id})}"
+              th:object="${produttore}" method="post" enctype="multipart/form-data">
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem">
                 <div>
@@ -27,19 +26,25 @@
                     <div class="form-group">
                         <label>Regione</label>
                         <select th:field="*{regione}">
-                            <option value="">-- Nessuna --</option>
-                            <option th:each="r : ${regioni}" th:value="${r.id}" th:text="${r.nome}"></option>
+                            <option value="">-- Seleziona regione --</option>
+                            <option th:each="r : ${regioni}"
+                                    th:value="${r.id}"
+                                    th:text="${r.nome}"></option>
                         </select>
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label>Immagine</label>
-                        <input type="file" name="immagineFile" accept="image/*" style="color:var(--text-secondary)" />
-                        <div th:if="${produttore.immagine != null}" style="margin-top:0.5rem">
+                        <input type="file" name="immagineFile" accept="image/*"
+                               style="color:var(--text-secondary)" />
+                        <div th:if="${produttore.immagine != null}" style="margin-top:0.75rem">
                             <img th:src="@{/uploads/{img}(img=${produttore.immagine})}"
-                                style="width:80px; height:80px; object-fit:cover; border-radius:var(--radius); border:1px solid var(--border)" />
-                            <small style="color:var(--text-muted); margin-left:0.5rem">immagine attuale</small>
+                                 style="width:120px; height:120px; object-fit:cover;
+                                        border-radius:var(--radius); border:1px solid var(--border)" />
+                            <p style="color:var(--text-muted); font-size:0.8rem; margin-top:0.4rem">
+                                Immagine attuale — carica un nuovo file per sostituirla
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -57,5 +62,4 @@
 
     </th:block>
 </body>
-
 </html>

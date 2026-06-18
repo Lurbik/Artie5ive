@@ -6,8 +6,6 @@ import it.uniroma3.siw.Artie5ive.service.RegioneService;
 import it.uniroma3.siw.Artie5ive.service.StorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +19,7 @@ public class AdminProduttoreController {
 
     private final ProduttoreService produttoreService;
     private final RegioneService regioneService;
+    private final StorageService storageService;
 
     @GetMapping
     public String lista(Model model) {
@@ -35,14 +34,11 @@ public class AdminProduttoreController {
         return "admin/produttori/form";
     }
 
-    @Autowired
-    private StorageService storageService;
-
     @PostMapping("/nuovo")
     public String salva(@Valid @ModelAttribute("produttore") Produttore produttore,
-            BindingResult result,
-            @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
-            Model model) {
+                        BindingResult result,
+                        @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
+                        Model model) {
         if (result.hasErrors()) {
             model.addAttribute("regioni", regioneService.findAll());
             return "admin/produttori/form";
@@ -56,17 +52,18 @@ public class AdminProduttoreController {
 
     @GetMapping("/modifica/{id}")
     public String formModifica(@PathVariable Long id, Model model) {
-        produttoreService.findById(id).ifPresent(p -> model.addAttribute("produttore", p));
+        produttoreService.findById(id).ifPresent(p ->
+            model.addAttribute("produttore", p));
         model.addAttribute("regioni", regioneService.findAll());
         return "admin/produttori/form";
     }
 
     @PostMapping("/modifica/{id}")
     public String aggiorna(@PathVariable Long id,
-            @Valid @ModelAttribute("produttore") Produttore produttore,
-            BindingResult result,
-            @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
-            Model model) {
+                           @Valid @ModelAttribute("produttore") Produttore produttore,
+                           BindingResult result,
+                           @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
+                           Model model) {
         if (result.hasErrors()) {
             model.addAttribute("regioni", regioneService.findAll());
             return "admin/produttori/form";
@@ -86,7 +83,10 @@ public class AdminProduttoreController {
 
     @PostMapping("/elimina/{id}")
     public String elimina(@PathVariable Long id) {
-        produttoreService.deleteById(id);
+        produttoreService.findById(id).ifPresent(p -> {
+            storageService.elimina(p.getImmagine());
+            produttoreService.deleteById(id);
+        });
         return "redirect:/admin/produttori";
     }
 }
