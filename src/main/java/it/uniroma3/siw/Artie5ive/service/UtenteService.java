@@ -26,10 +26,12 @@ public class UtenteService {
         return utenteRepository.save(utente);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Utente> findByUsername(String username) {
         return utenteRepository.findByUsername(username);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Utente> findById(Long id) {
         return utenteRepository.findById(id);
     }

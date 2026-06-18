@@ -21,4 +21,7 @@ public interface RecensioneRepository extends JpaRepository<Recensione, Long> {
     Optional<Recensione> findByUtenteIdAndVinoId(Long utenteId, Long vinoId);
 
     boolean existsByUtenteIdAndVinoId(Long utenteId, Long vinoId);
+
+    @Query("SELECT r FROM Recensione r JOIN FETCH r.utente JOIN FETCH r.vino WHERE r.id = :id")
+    Optional<Recensione> findByIdWithUtente(@Param("id") Long id);
 }

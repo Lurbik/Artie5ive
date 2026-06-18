@@ -39,9 +39,9 @@ public class RecensioneController {
     // Salva nuova recensione
     @PostMapping("/nuova/{vinoId}")
     public String salva(@PathVariable Long vinoId,
-                        @Valid @ModelAttribute("recensione") Recensione recensione,
-                        BindingResult result,
-                        Principal principal) {
+            @Valid @ModelAttribute("recensione") Recensione recensione,
+            BindingResult result,
+            Principal principal) {
         if (result.hasErrors()) {
             return "recensioni/form";
         }
@@ -56,7 +56,7 @@ public class RecensioneController {
     // Elimina recensione propria
     @PostMapping("/elimina/{id}")
     public String elimina(@PathVariable Long id, Principal principal) {
-        recensioneService.findById(id).ifPresent(rec -> {
+        recensioneService.findByIdWithUtente(id).ifPresent(rec -> {
             if (rec.getUtente().getUsername().equals(principal.getName())) {
                 recensioneService.deleteById(id);
             }
@@ -64,9 +64,9 @@ public class RecensioneController {
         return "redirect:/profilo";
     }
 
-        @GetMapping("/modifica/{id}")
+    @GetMapping("/modifica/{id}")
     public String formModifica(@PathVariable Long id, Model model, Principal principal) {
-        recensioneService.findById(id).ifPresent(rec -> {
+        recensioneService.findByIdWithUtente(id).ifPresent(rec -> {
             if (rec.getUtente().getUsername().equals(principal.getName())) {
                 model.addAttribute("recensione", rec);
                 model.addAttribute("vinoId", rec.getVino().getId());
@@ -77,11 +77,12 @@ public class RecensioneController {
 
     @PostMapping("/modifica/{id}")
     public String aggiorna(@PathVariable Long id,
-                            @Valid @ModelAttribute("recensione") Recensione recensione,
-                            BindingResult result,
-                            Principal principal) {
-        if (result.hasErrors()) return "recensioni/form";
-        recensioneService.findById(id).ifPresent(rec -> {
+            @Valid @ModelAttribute("recensione") Recensione recensione,
+            BindingResult result,
+            Principal principal) {
+        if (result.hasErrors())
+            return "recensioni/form";
+        recensioneService.findByIdWithUtente(id).ifPresent(rec -> {
             if (rec.getUtente().getUsername().equals(principal.getName())) {
                 rec.setTesto(recensione.getTesto());
                 rec.setVoto(recensione.getVoto());
@@ -91,5 +92,4 @@ public class RecensioneController {
         return "redirect:/profilo";
     }
 
-    
 }
