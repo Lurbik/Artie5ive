@@ -3,25 +3,28 @@ package it.uniroma3.siw.Artie5ive.security;
 import it.uniroma3.siw.Artie5ive.model.RuoloUtente;
 import it.uniroma3.siw.Artie5ive.model.Utente;
 import it.uniroma3.siw.Artie5ive.repository.UtenteRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UtenteRepository utenteRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public CustomOAuth2UserService(UtenteRepository utenteRepository, PasswordEncoder passwordEncoder) {
+        this.utenteRepository = utenteRepository;
+        this.passwordEncoder = passwordEncoder;
+        System.out.println(">>> CustomOAuth2UserService CREATO!");
+    }
+
     @Override
-    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest request) {
+        System.out.println(">>> LOAD USER CHIAMATO!");
         OAuth2User oAuth2User = super.loadUser(request);
 
         String email = oAuth2User.getAttribute("email");
@@ -29,9 +32,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String cognome = oAuth2User.getAttribute("family_name");
 
         System.out.println(">>> OAUTH EMAIL: " + email);
-        System.out.println(">>> ESISTE GIA: " + utenteRepository.existsByEmail(email));
 
-        if (!utenteRepository.existsByEmail(email)) {
+        if (email != null && !utenteRepository.existsByEmail(email)) {
             try {
                 Utente utente = new Utente();
                 utente.setUsername(email);
