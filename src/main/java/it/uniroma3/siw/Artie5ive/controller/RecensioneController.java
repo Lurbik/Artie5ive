@@ -41,15 +41,21 @@ public class RecensioneController {
     public String salva(@PathVariable Long vinoId,
             @Valid @ModelAttribute("recensione") Recensione recensione,
             BindingResult result,
-            Principal principal) {
-        if (result.hasErrors()) {
+            Principal principal,
+            Model model) {
+        if (result.hasErrors())
+            return "recensioni/form";
+        try {
+            utenteService.findByUsername(principal.getName()).ifPresent(utente -> {
+                recensione.setUtente(utente);
+                vinoService.findById(vinoId).ifPresent(recensione::setVino);
+                recensioneService.save(recensione);
+            });
+        } catch (IllegalStateException e) {
+            model.addAttribute("errore", "Hai già recensito questo vino.");
+            model.addAttribute("vinoId", vinoId);
             return "recensioni/form";
         }
-        utenteService.findByUsername(principal.getName()).ifPresent(utente -> {
-            recensione.setUtente(utente);
-            vinoService.findById(vinoId).ifPresent(recensione::setVino);
-            recensioneService.save(recensione);
-        });
         return "redirect:/vini/" + vinoId;
     }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(~{::content}, 'Registrazione')}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'Registrazione')}">
+
 <body>
     <th:block th:fragment="content">
         <div class="form-container">
@@ -27,9 +27,19 @@
                     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
                 </div>
                 <button type="submit" class="btn-primary">Registrati</button>
+                <div style="display:flex; align-items:center; gap:1rem; margin:1.5rem 0">
+                    <div style="flex:1; height:1px; background:var(--border)"></div>
+                    <span style="color:var(--text-muted); font-size:0.85rem">oppure</span>
+                    <div style="flex:1; height:1px; background:var(--border)"></div>
+                </div>
+                <a href="/oauth2/authorization/google" class="btn-secondary"
+                    style="display:block; text-align:center; padding:0.75rem">
+                    🔵 Accedi con Google
+                </a>
             </form>
             <p>Hai già un account? <a th:href="@{/login}">Accedi</a></p>
         </div>
     </th:block>
 </body>
+
 </html>
