@@ -9,6 +9,8 @@
             <a th:href="@{/admin/produttori/nuovo}" class="btn-primary">+ Nuovo Produttore</a>
         </div>
 
+        <div th:if="${errore}" class="alert alert-error" th:text="${errore}"></div>
+
         <div class="table-container">
             <table>
                 <thead>

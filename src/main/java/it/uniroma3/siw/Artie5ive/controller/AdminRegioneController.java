@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/regioni")
@@ -47,8 +48,13 @@ public class AdminRegioneController {
     }
 
     @PostMapping("/elimina/{id}")
-    public String elimina(@PathVariable Long id) {
-        regioneService.deleteById(id);
+    public String elimina(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            regioneService.deleteById(id);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("errore",
+                    "Impossibile eliminare: ci sono produttori collegati a questa regione.");
+        }
         return "redirect:/admin/regioni";
     }
 }

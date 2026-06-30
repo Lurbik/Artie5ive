@@ -69,7 +69,7 @@ public class AdminVinoController {
 
     @GetMapping("/modifica/{id}")
     public String formModifica(@PathVariable Long id, Model model) {
-        vinoService.findById(id).ifPresent(v -> model.addAttribute("vino", v));
+        vinoService.findByIdWithDetails(id).ifPresent(v -> model.addAttribute("vino", v));
         model.addAttribute("produttori", produttoreService.findAll());
         model.addAttribute("regioni", regioneService.findAll());
         model.addAttribute("categorie", categoriaService.findAll());

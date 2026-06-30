@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/categorie")
@@ -49,8 +50,13 @@ public class AdminCategoriaController {
     }
 
     @PostMapping("/elimina/{id}")
-    public String elimina(@PathVariable Long id) {
-        categoriaService.deleteById(id);
+    public String elimina(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            categoriaService.deleteById(id);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("errore",
+                    "Impossibile eliminare: questa categoria è assegnata a uno o più vini.");
+        }
         return "redirect:/admin/categorie";
     }
 }

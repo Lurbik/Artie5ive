@@ -33,7 +33,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         System.out.println(">>> OAUTH EMAIL: " + email);
 
-        if (email != null && !utenteRepository.existsByEmail(email)) {
+        if (email != null && !utenteRepository.existsByUsername(email)) {
             try {
                 Utente utente = new Utente();
                 utente.setUsername(email);
@@ -46,15 +46,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 utenteRepository.save(utente);
                 System.out.println(">>> SALVATO!");
             } catch (Exception e) {
-                System.out.println(">>> ERRORE SAVE: " + e.getMessage());
-                e.printStackTrace();
+                System.out.println(">>> ERRORE SAVE CLASSE: " + e.getClass().getName());
+                System.out.println(">>> ERRORE SAVE MSG: " + e.getMessage());
+                Throwable cause = e.getCause();
+                while (cause != null) {
+                    System.out.println(">>> CAUSA: " + cause.getMessage());
+                    cause = cause.getCause();
+                }
             }
         }
 
         return new org.springframework.security.oauth2.core.user.DefaultOAuth2User(
-            oAuth2User.getAuthorities(),
-            oAuth2User.getAttributes(),
-            "email"
-        );
+                oAuth2User.getAuthorities(),
+                oAuth2User.getAttributes(),
+                "email");
     }
 }

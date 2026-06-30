@@ -30,7 +30,7 @@ public class Utente {
     private String cognome;
 
     
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)

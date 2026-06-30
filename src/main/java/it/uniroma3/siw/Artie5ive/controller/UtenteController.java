@@ -29,7 +29,7 @@ public class UtenteController {
     // Salva nuovo utente
     @PostMapping("/registrazione")
     public String registra(@Valid @ModelAttribute("utente") Utente utente,
-                           BindingResult result) {
+            BindingResult result) {
         if (result.hasErrors()) {
             return "utente/registrazione";
         }
@@ -42,28 +42,30 @@ public class UtenteController {
         return "redirect:/login";
     }
 
+    @GetMapping("/profilo")
+    public String profilo(Authentication authentication, Model model) {
+        if (authentication == null)
+            return "redirect:/login";
 
+        String identifier;
+        if (authentication
+                .getPrincipal() instanceof org.springframework.security.oauth2.core.user.OAuth2User oauth2User) {
+            identifier = oauth2User.getAttribute("email");
+        } else {
+            identifier = authentication.getName();
+        }
 
-@GetMapping("/profilo")
-public String profilo(Authentication authentication, Model model) {
-    String identifier;
-    
-    if (authentication.getPrincipal() instanceof org.springframework.security.oauth2.core.user.OAuth2User oauth2User) {
-        identifier = oauth2User.getAttribute("email");
-    } else {
-        identifier = authentication.getName();
-    }
-    
-    System.out.println(">>> IDENTIFIER: " + identifier);
-    
-    utenteService.findByUsername(identifier)
-        .or(() -> utenteService.findByEmail(identifier))
-        .ifPresent(utente -> {
-            model.addAttribute("utente", utente);
-            model.addAttribute("recensioni",
-                recensioneService.findByUtente(utente.getId()));
+        var utente = utenteService.findByUsername(identifier)
+                .or(() -> utenteService.findByEmail(identifier));
+
+        if (utente.isEmpty())
+            return "redirect:/"; // invece di crashare
+
+        utente.ifPresent(u -> {
+            model.addAttribute("utente", u);
+            model.addAttribute("recensioni", recensioneService.findByUtente(u.getId()));
         });
 
-    return "utente/profilo";
-}
+        return "utente/profilo";
+    }
 }
