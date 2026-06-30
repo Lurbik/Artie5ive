@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/produttori")
@@ -36,9 +37,9 @@ public class AdminProduttoreController {
 
     @PostMapping("/nuovo")
     public String salva(@Valid @ModelAttribute("produttore") Produttore produttore,
-                        BindingResult result,
-                        @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
-                        Model model) {
+            BindingResult result,
+            @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
+            Model model) {
         if (result.hasErrors()) {
             model.addAttribute("regioni", regioneService.findAll());
             return "admin/produttori/form";
@@ -52,18 +53,17 @@ public class AdminProduttoreController {
 
     @GetMapping("/modifica/{id}")
     public String formModifica(@PathVariable Long id, Model model) {
-        produttoreService.findById(id).ifPresent(p ->
-            model.addAttribute("produttore", p));
+        produttoreService.findById(id).ifPresent(p -> model.addAttribute("produttore", p));
         model.addAttribute("regioni", regioneService.findAll());
         return "admin/produttori/form";
     }
 
     @PostMapping("/modifica/{id}")
     public String aggiorna(@PathVariable Long id,
-                           @Valid @ModelAttribute("produttore") Produttore produttore,
-                           BindingResult result,
-                           @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
-                           Model model) {
+            @Valid @ModelAttribute("produttore") Produttore produttore,
+            BindingResult result,
+            @RequestParam(value = "immagineFile", required = false) MultipartFile immagineFile,
+            Model model) {
         if (result.hasErrors()) {
             model.addAttribute("regioni", regioneService.findAll());
             return "admin/produttori/form";
@@ -82,11 +82,16 @@ public class AdminProduttoreController {
     }
 
     @PostMapping("/elimina/{id}")
-    public String elimina(@PathVariable Long id) {
-        produttoreService.findById(id).ifPresent(p -> {
-            storageService.elimina(p.getImmagine());
-            produttoreService.deleteById(id);
-        });
+    public String elimina(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            produttoreService.findById(id).ifPresent(p -> {
+                storageService.elimina(p.getImmagine());
+                produttoreService.deleteById(id);
+            });
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("errore",
+                    "Impossibile eliminare: ci sono vini collegati a questo produttore.");
+        }
         return "redirect:/admin/produttori";
     }
 }

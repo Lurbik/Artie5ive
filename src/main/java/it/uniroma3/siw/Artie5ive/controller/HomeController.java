@@ -16,4 +16,9 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/react-vini")
+    public String reactVini() {
+        return "react-vini";
+    }
+
 }

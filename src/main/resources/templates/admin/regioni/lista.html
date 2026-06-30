@@ -7,6 +7,9 @@
             <h1>Regioni</h1>
             <a th:href="@{/admin/regioni/nuovo}" class="btn-primary">+ Nuova Regione</a>
         </div>
+
+        <div th:if="${errore}" class="alert alert-error" th:text="${errore}"></div>
+        
         <div class="table-container">
             <table>
                 <thead>
