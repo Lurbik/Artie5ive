@@ -473,7 +473,7 @@
                         <div className="modal-grid">
                             <div>
                                 {vino.immagine
-                                    ? <img className="modal-img" src={`/uploads/${vino.immagine}`} alt={vino.nome} />
+                                    ? <img className="modal-img" src={vino.immagine?.startsWith('http') ? vino.immagine : `/uploads/${vino.immagine}`} alt={vino.nome} />
                                     : <div className="modal-placeholder">🍷</div>
                                 }
                             </div>
@@ -604,7 +604,7 @@
                         {viniPagina.map(vino => (
                             <div key={vino.id} className="card" onClick={() => setVinoSelezionato(vino)}>
                                 {vino.immagine
-                                    ? <img className="card-img" src={`/uploads/${vino.immagine}`} alt={vino.nome} />
+                                    ? <img className="card-img" src={vino.immagine?.startsWith('http') ? vino.immagine : `/uploads/${vino.immagine}`} alt={vino.nome} />
                                     : <div className="card-placeholder">🍷</div>
                                 }
                                 <div className="card-body">

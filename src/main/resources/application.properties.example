@@ -20,3 +20,8 @@ spring.thymeleaf.cache=false
 spring.security.oauth2.client.registration.google.client-id=INSERISCI_QUI_IL_CLIENT_ID
 spring.security.oauth2.client.registration.google.client-secret=INSERISCI_QUI_IL_CLIENT_SECRET
 spring.security.oauth2.client.registration.google.scope=email,profile
+
+# ===== CLOUDINARY (opzionale per sviluppo locale) =====
+cloudinary.cloud-name=INSERISCI_QUI_IL_CLOUD_NAME
+cloudinary.api-key=INSERISCI_QUI_LA_API_KEY
+cloudinary.api-secret=INSERISCI_QUI_LA_API_SECRET
