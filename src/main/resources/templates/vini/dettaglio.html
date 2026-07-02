@@ -11,7 +11,7 @@
                     <div class="card-img-placeholder" th:if="${vino.immagine == null}"
                         style="height:350px; border-radius: var(--radius); border: 1px solid var(--border)">🍷</div>
                     <img class="dettaglio-img" th:if="${vino.immagine != null}"
-                        th:src="@{/uploads/{img}(img=${vino.immagine})}" th:alt="${vino.nome}" />
+                        th:src="${vino.immagine != null and vino.immagine.startsWith('http') ? vino.immagine : '/uploads/' + vino.immagine}"th:alt="${vino.nome}" />
                 </div>
                 <div class="dettaglio-info">
                     <h1 th:text="${vino.nome}"></h1>
