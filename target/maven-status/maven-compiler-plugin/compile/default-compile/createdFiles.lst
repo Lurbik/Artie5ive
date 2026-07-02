@@ -6,6 +6,7 @@ it\uniroma3\siw\Artie5ive\controller\AdminVinoController.class
 it\uniroma3\siw\Artie5ive\controller\AdminRecensioneController.class
 it\uniroma3\siw\Artie5ive\controller\AdminRegioneController.class
 it\uniroma3\siw\Artie5ive\service\StorageService.class
+it\uniroma3\siw\Artie5ive\config\CloudinaryConfig.class
 it\uniroma3\siw\Artie5ive\controller\VinoRestController$VinoDTO.class
 it\uniroma3\siw\Artie5ive\model\Recensione.class
 it\uniroma3\siw\Artie5ive\security\CustomUserDetailsService.class
