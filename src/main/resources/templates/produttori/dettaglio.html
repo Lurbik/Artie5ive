@@ -13,7 +13,8 @@
                         🏭
                     </div>
                     <img class="dettaglio-img" th:if="${produttore.immagine != null}"
-                        th:src="@{/uploads/{img}(img=${produttore.immagine})}" th:alt="${produttore.nome}" />
+                        th:src="${produttore.immagine.startsWith('http') ? produttore.immagine : '/uploads/' + produttore.immagine}"
+                        th:alt="${produttore.nome}" />
                 </div>
 
                 <div class="dettaglio-info">
@@ -55,7 +56,8 @@
                 <div class="card" th:each="vino : ${vini}">
                     <div class="card-img-placeholder" th:if="${vino.immagine == null}">🍷</div>
                     <img class="card-img" th:if="${vino.immagine != null}"
-                        th:src="${vino.immagine != null and vino.immagine.startsWith('http') ? vino.immagine : '/uploads/' + vino.immagine}"th:alt="${vino.nome}" />
+                        th:src="${vino.immagine != null and vino.immagine.startsWith('http') ? vino.immagine : '/uploads/' + vino.immagine}"
+                        th:alt="${vino.nome}" />
                     <div class="card-body">
                         <div class="card-title" th:text="${vino.nome}"></div>
                         <div class="card-subtitle" th:text="${vino.annata}"></div>

@@ -9,7 +9,8 @@
         <div class="card-grid" style="max-width:100%">
             <div class="card" th:each="p : ${produttori}">
                 <div class="card-img-placeholder" th:if="${p.immagine == null}">🏭</div>
-                <img class="card-img" th:if="${p.immagine != null}" th:src="@{/uploads/{img}(img=${p.immagine})}"
+                <img class="card-img" th:if="${p.immagine != null}"
+                    th:src="${p.immagine.startsWith('http') ? p.immagine : '/uploads/' + p.immagine}"
                     th:alt="${p.nome}" />
                 <div class="card-body">
                     <h3 class="card-title" th:text="${p.nome}"></h3>
