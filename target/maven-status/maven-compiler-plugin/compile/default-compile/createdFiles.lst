@@ -6,7 +6,6 @@ it\uniroma3\siw\Artie5ive\controller\AdminVinoController.class
 it\uniroma3\siw\Artie5ive\controller\AdminRecensioneController.class
 it\uniroma3\siw\Artie5ive\controller\AdminRegioneController.class
 it\uniroma3\siw\Artie5ive\service\StorageService.class
-it\uniroma3\siw\Artie5ive\controller\VinoRestController$VinoDTO.class
 it\uniroma3\siw\Artie5ive\model\Recensione.class
 it\uniroma3\siw\Artie5ive\security\CustomUserDetailsService.class
 it\uniroma3\siw\Artie5ive\model\Vino.class
@@ -14,20 +13,16 @@ it\uniroma3\siw\Artie5ive\repository\CategoriaRepository.class
 it\uniroma3\siw\Artie5ive\repository\UtenteRepository.class
 it\uniroma3\siw\Artie5ive\service\RecensioneService.class
 it\uniroma3\siw\Artie5ive\security\CustomOAuth2UserService.class
-it\uniroma3\siw\Artie5ive\controller\VinoRestController.class
 it\uniroma3\siw\Artie5ive\repository\VinoRepository.class
 it\uniroma3\siw\Artie5ive\security\PasswordEncoderConfig.class
 it\uniroma3\siw\Artie5ive\repository\ProduttoreRepository.class
 it\uniroma3\siw\Artie5ive\model\Regione.class
-it\uniroma3\siw\Artie5ive\controller\VinoController.class
 it\uniroma3\siw\Artie5ive\service\ProduttoreService.class
 it\uniroma3\siw\Artie5ive\repository\RecensioneRepository.class
 it\uniroma3\siw\Artie5ive\service\RegioneService.class
 it\uniroma3\siw\Artie5ive\model\ColoreVino.class
-it\uniroma3\siw\Artie5ive\service\VinoService.class
 it\uniroma3\siw\Artie5ive\model\StileVino.class
 it\uniroma3\siw\Artie5ive\WebConfig.class
-it\uniroma3\siw\Artie5ive\controller\VinoRestController$RecensioneDTO.class
 it\uniroma3\siw\Artie5ive\model\Produttore.class
 it\uniroma3\siw\Artie5ive\controller\AdminCategoriaController.class
 it\uniroma3\siw\Artie5ive\controller\HomeController.class
@@ -35,8 +30,6 @@ it\uniroma3\siw\Artie5ive\controller\UtenteController.class
 it\uniroma3\siw\Artie5ive\DataInitializer.class
 it\uniroma3\siw\Artie5ive\service\UtenteService.class
 it\uniroma3\siw\Artie5ive\security\SecurityConfig.class
-it\uniroma3\siw\Artie5ive\controller\ProduttoreController.class
 it\uniroma3\siw\Artie5ive\model\Utente.class
 it\uniroma3\siw\Artie5ive\controller\AdminProduttoreController.class
 it\uniroma3\siw\Artie5ive\model\RuoloUtente.class
-it\uniroma3\siw\Artie5ive\controller\RecensioneController.class
