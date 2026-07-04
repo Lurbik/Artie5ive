@@ -2,10 +2,15 @@ package it.uniroma3.siw.Artie5ive.controller;
 
 import it.uniroma3.siw.Artie5ive.service.ProduttoreService;
 import it.uniroma3.siw.Artie5ive.service.VinoService;
+import it.uniroma3.siw.Artie5ive.model.Produttore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,7 +21,13 @@ public class ProduttoreController {
 
     @GetMapping("/produttori")
     public String lista(Model model) {
-        model.addAttribute("produttori", produttoreService.findAll());
+        List<Produttore> produttori = (List<Produttore>) produttoreService.findAll();
+        Map<Long, Long> conteggioVini = new HashMap<>();
+        for (Produttore p : produttori) {
+            conteggioVini.put(p.getId(), vinoService.contaPerProduttore(p.getId()));
+        }
+        model.addAttribute("produttori", produttori);
+        model.addAttribute("conteggioVini", conteggioVini);
         return "produttori/lista";
     }
 

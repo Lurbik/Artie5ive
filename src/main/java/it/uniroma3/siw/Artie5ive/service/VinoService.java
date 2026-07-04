@@ -77,4 +77,9 @@ public class VinoService {
     public void deleteById(Long id) {
         vinoRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public Long contaPerProduttore(Long produttoreId) {
+        return vinoRepository.countByProduttoreId(produttoreId);
+    }
 }

@@ -29,4 +29,6 @@ public interface VinoRepository extends CrudRepository<Vino, Long> {
 
     @Query("SELECT v FROM Vino v LEFT JOIN FETCH v.categorie WHERE v.id = :id")
     Optional<Vino> findByIdWithDetails(@Param("id") Long id);
+
+    long countByProduttoreId(Long produttoreId);
 }
