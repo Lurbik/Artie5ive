@@ -11,7 +11,8 @@
                     <div class="card-img-placeholder" th:if="${vino.immagine == null}"
                         style="height:350px; border-radius: var(--radius); border: 1px solid var(--border)">🍷</div>
                     <img class="dettaglio-img" th:if="${vino.immagine != null}"
-                        th:src="${vino.immagine != null and vino.immagine.startsWith('http') ? vino.immagine : '/uploads/' + vino.immagine}"th:alt="${vino.nome}" />
+                        th:src="${vino.immagine != null and vino.immagine.startsWith('http') ? vino.immagine : '/uploads/' + vino.immagine}"
+                        th:alt="${vino.nome}" />
                 </div>
                 <div class="dettaglio-info">
                     <h1 th:text="${vino.nome}"></h1>
@@ -78,8 +79,9 @@
                 <div class="recensione-header">
                     <span class="recensione-autore" th:text="${rec.utente.username}"></span>
                     <div class="stelle">
-                        <th:block th:each="i : ${#numbers.sequence(1, rec.voto)}">★</th:block>
-                        <th:block th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">☆</th:block>
+                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                            <span th:text="${i <= rec.voto} ? '★' : '☆'"></span>
+                        </th:block>
                     </div>
                 </div>
                 <p class="recensione-testo" th:text="${rec.testo}"></p>

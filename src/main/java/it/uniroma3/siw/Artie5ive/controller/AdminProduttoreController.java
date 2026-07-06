@@ -85,8 +85,8 @@ public class AdminProduttoreController {
     public String elimina(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             produttoreService.findById(id).ifPresent(p -> {
-                storageService.elimina(p.getImmagine());
-                produttoreService.deleteById(id);
+                produttoreService.deleteById(id); // prima elimina dal DB
+                storageService.elimina(p.getImmagine()); // poi elimina immagine
             });
         } catch (org.springframework.dao.DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute("errore",

@@ -4,13 +4,14 @@ import it.uniroma3.siw.Artie5ive.model.Vino;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 
-public interface VinoRepository extends CrudRepository<Vino, Long> {
+public interface VinoRepository extends JpaRepository<Vino, Long> {
     List<Vino> findByAnnata(Integer annata);
 
     List<Vino> findByProduttoreId(Long produttoreId);
@@ -29,4 +30,7 @@ public interface VinoRepository extends CrudRepository<Vino, Long> {
 
     @Query("SELECT v FROM Vino v LEFT JOIN FETCH v.categorie WHERE v.id = :id")
     Optional<Vino> findByIdWithDetails(@Param("id") Long id);
+
+    @Query("SELECT v FROM Vino v LEFT JOIN FETCH v.produttore")
+    List<Vino> findAllWithProduttore();
 }

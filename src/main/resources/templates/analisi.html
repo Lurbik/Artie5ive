@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout :: layout(~{::content}, 'Analisi Prestazioni')}">
+<body>
+    <th:block th:fragment="content">
+        
+        <div class="page-header">
+            <h1>⚡ Analisi Prestazioni JPA</h1>
+        </div>
+
+        <p style="color:var(--text-secondary); margin-bottom:2rem;">
+            Confronto tra strategie di caricamento JPA su
+            <strong th:text="${numVini}" style="color:var(--accent-gold)">N</strong> vini.
+        </p>
+
+        <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+            
+            <div class="card">
+                <div class="card-body">
+                    <h3 style="font-family:var(--font-main); color:var(--accent-gold); 
+                               margin-bottom:1rem;">🐢 LAZY (default)</h3>
+                    <p style="color:var(--text-secondary); line-height:1.6;">
+                        Carica le relazioni solo quando vengono accedute. 
+                        Genera il problema <strong>N+1</strong>: 
+                        1 query per i vini + 1 per ogni produttore.
+                    </p>
+                    <div style="font-size:2rem; color:var(--accent-wine-light); 
+                                font-weight:bold; margin:1rem 0;" 
+                         th:text="${tempoLazy}">—</div>
+                    <p style="color:var(--text-muted); font-size:0.85rem;">
+                        Query generate: 
+                        <strong th:text="${numQuery}" 
+                                style="color:var(--accent-gold)">N</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 style="font-family:var(--font-main); color:var(--accent-gold); 
+                               margin-bottom:1rem;">⚡ JOIN FETCH</h3>
+                    <p style="color:var(--text-secondary); line-height:1.6;">
+                        Carica vini e produttori in <strong>una sola query</strong> 
+                        con JOIN SQL. Elimina completamente il problema N+1.
+                    </p>
+                    <div style="font-size:2rem; color:#4caf50; 
+                                font-weight:bold; margin:1rem 0;" 
+                         th:text="${tempoJoinFetch}">—</div>
+                    <p style="color:var(--text-muted); font-size:0.85rem;">
+                        Query generate: <strong style="color:var(--accent-gold)">1</strong>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card" style="margin-top:2rem;">
+            <div class="card-body">
+                <h3 style="font-family:var(--font-main); color:var(--accent-gold); 
+                           margin-bottom:1rem;">📊 Conclusioni</h3>
+                <p style="color:var(--text-secondary); line-height:1.6;">
+                    La strategia <strong>LAZY</strong> è comoda ma pericolosa 
+                    in produzione: con molti record genera decine di query inutili.
+                </p>
+                <p style="color:var(--text-secondary); line-height:1.6; margin-top:0.75rem;">
+                    <strong>JOIN FETCH</strong> risolve il problema N+1 caricando 
+                    tutto in una query con JOIN SQL. È la soluzione raccomandata 
+                    quando sai in anticipo che avrai bisogno delle relazioni.
+                </p>
+                <p style="color:var(--text-secondary); line-height:1.6; margin-top:0.75rem;">
+                    Il trade-off: JOIN FETCH carica sempre tutto anche se non serve. 
+                    Per casi complessi si usa <strong>@EntityGraph</strong> per 
+                    specificare esattamente cosa caricare caso per caso.
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+            <a th:href="@{/}" class="btn-secondary">← Torna alla home</a>
+        </div>
+
+    </th:block>
+</body>
+</html>

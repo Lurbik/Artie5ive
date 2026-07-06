@@ -65,7 +65,7 @@ public class VinoService {
             return vinoRepository.findByRegioneId(regioneId);
         if (produttoreId != null)
             return vinoRepository.findByProduttoreId(produttoreId);
-        return (List<Vino>) vinoRepository.findAll();
+        return vinoRepository.findAll();
     }
 
     @Transactional

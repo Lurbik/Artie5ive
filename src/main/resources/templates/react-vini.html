@@ -538,12 +538,19 @@
             const [filtroColore, setFiltroColore] = useState('');
             const [vinoSelezionato, setVinoSelezionato] = useState(null);
             const [pagina, setPagina] = useState(1);
+            const [errore, setErrore] = useState(null);
 
             useEffect(() => {
                 fetch('/api/vini')
-                    .then(r => r.json())
+                    .then(r => {
+                        if (!r.ok) throw new Error('Errore caricamento');
+                        return r.json();
+                    })
                     .then(data => { setVini(data); setLoading(false); })
-                    .catch(() => setLoading(false));
+                    .catch(() => {
+                        setErrore('Impossibile caricare i vini. Riprova più tardi.');
+                        setLoading(false);
+                    });
             }, []);
 
             const colori = [...new Set(vini.map(v => v.colore).filter(Boolean))];
@@ -595,6 +602,13 @@
                     </div>
 
                     {loading && <div className="loading">Caricamento vini...</div>}
+
+                    {errore && (
+                        <div className="empty">
+                            <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>🍷</p>
+                            <p>{errore}</p>
+                        </div>
+                    )}
 
                     {!loading && viniFiltrati.length === 0 && (
                         <div className="empty"><p>Nessun vino trovato.</p></div>
