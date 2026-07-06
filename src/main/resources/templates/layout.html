@@ -22,6 +22,36 @@
     <footer>
         <p>© 2026 Artie5ive — Cantina Vini</p>
     </footer>
+
+    <audio id="bg-music" autoplay loop style="display:none" th:src="@{/audio/jazz-music.mp3}"></audio>
+    <script th:inline="none">
+        (function () {
+            var audio = document.getElementById('bg-music');
+            if (!audio) return;
+
+            var savedTime = sessionStorage.getItem('bgMusicTime');
+
+            function ripristinaPosizione() {
+                if (savedTime !== null) {
+                    audio.currentTime = parseFloat(savedTime);
+                }
+            }
+
+            if (audio.readyState >= 1) {
+                ripristinaPosizione();
+            } else {
+                audio.addEventListener('loadedmetadata', ripristinaPosizione);
+            }
+
+            setInterval(function () {
+                sessionStorage.setItem('bgMusicTime', audio.currentTime);
+            }, 1000);
+
+            window.addEventListener('beforeunload', function () {
+                sessionStorage.setItem('bgMusicTime', audio.currentTime);
+            });
+        })();
+    </script>
 </body>
 
 </html>

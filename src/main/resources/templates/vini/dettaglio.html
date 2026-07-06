@@ -79,7 +79,9 @@
                     <span class="recensione-autore" th:text="${rec.utente.username}"></span>
                     <div class="stelle">
                         <th:block th:each="i : ${#numbers.sequence(1, rec.voto)}">★</th:block>
-                        <th:block th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">☆</th:block>
+                        <th:block th:if="${rec.voto < 5}">
+                            <th:block th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">☆</th:block>
+                        </th:block>
                     </div>
                 </div>
                 <p class="recensione-testo" th:text="${rec.testo}"></p>
