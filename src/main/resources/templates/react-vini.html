@@ -452,7 +452,7 @@
         const { useState, useEffect } = React;
 
         function stelle(voto) {
-            return '★'.repeat(voto) + '☆'.repeat(5 - voto);
+            return Array.from({ length: 5 }, (_, i) => i < voto ? '★' : '☆').join('');
         }
 
         function ModalVino({ vino, onClose }) {

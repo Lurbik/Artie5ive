@@ -50,8 +50,9 @@
                     <div class="recensione-header">
                         <span class="recensione-autore" th:text="${rec.vino.nome}"></span>
                         <div class="stelle">
-                            <th:block th:each="i : ${#numbers.sequence(1, rec.voto)}">★</th:block>
-                            <th:block th:each="i : ${#numbers.sequence(rec.voto + 1, 5)}">☆</th:block>
+                            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                <span th:text="${i <= rec.voto} ? '★' : '☆'"></span>
+                            </th:block>
                         </div>
                     </div>
                     <p class="recensione-testo" th:text="${rec.testo}"></p>

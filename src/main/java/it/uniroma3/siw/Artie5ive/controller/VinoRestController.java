@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.StreamSupport;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api")
@@ -20,9 +21,8 @@ public class VinoRestController {
 
     @GetMapping("/vini")
     public List<VinoDTO> getVini() {
-        return StreamSupport.stream(vinoService.findAll().spliterator(), false)
-                .map(VinoDTO::from)
-                .toList();
+        return vinoService.findAll().stream()
+                .map(VinoDTO::from).toList();
     }
 
     @GetMapping("/vini/{id}")

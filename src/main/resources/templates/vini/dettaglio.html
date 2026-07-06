@@ -97,9 +97,10 @@
                     <form th:id="'form-elimina-' + ${rec.id}" th:action="@{/recensioni/elimina/{id}(id=${rec.id})}"
                         method="post" style="display:none"></form>
 
-                    <!-- Elimina admin -->
+                    <!-- Elimina admin — solo se NON sei il proprietario -->
                     <button type="button" class="btn-danger" style="font-size:0.8rem; padding:0.4rem 1rem"
-                        sec:authorize="hasRole('ADMIN')" th:attr="onclick='apriModal(' + ${rec.id} + ', true)'">
+                        sec:authorize="hasRole('ADMIN')" th:unless="${rec.utente.username == #authentication.name}"
+                        th:attr="onclick='apriModal(' + ${rec.id} + ', true)'">
                         Elimina (admin)
                     </button>
                     <form th:id="'form-elimina-admin-' + ${rec.id}"

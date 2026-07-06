@@ -15,7 +15,7 @@ public class VinoService {
     private VinoRepository vinoRepository;
 
     @Transactional(readOnly = true)
-    public Iterable<Vino> findAll() {
+    public List<Vino> findAll() {
         return vinoRepository.findAll();
     }
 
@@ -76,5 +76,33 @@ public class VinoService {
     @Transactional
     public void deleteById(Long id) {
         vinoRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public long misuraTempoLazy() {
+        long inizio = System.currentTimeMillis();
+        List<Vino> vini = vinoRepository.findAll();
+        vini.forEach(v -> {
+            if (v.getProduttore() != null)
+                v.getProduttore().getNome();
+        });
+        return System.currentTimeMillis() - inizio;
+    }
+
+    @Transactional(readOnly = true)
+    public long misuraTempoJoinFetch() {
+        long inizio = System.currentTimeMillis();
+        vinoRepository.findAllWithProduttore();
+        return System.currentTimeMillis() - inizio;
+    }
+
+    @Transactional(readOnly = true)
+    public long contaVini() {
+        return vinoRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Vino> findAllWithProduttore() {
+        return vinoRepository.findAllWithProduttore();
     }
 }
